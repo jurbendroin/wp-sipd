@@ -115,7 +115,7 @@ foreach ($bl as $k => $sub_bl) {
 		SELECT 
 			* 
 		from data_rka 
-		where kode_sbl='".$sub_bl['kode_sbl']."'
+		where kode_sbl='".$sub_bl['kode_sbl']."' AND active = 1
 		Order by kode_akun ASC"
 	, ARRAY_A);
 	$rin_sub_item = '';

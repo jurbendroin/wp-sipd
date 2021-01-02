@@ -595,6 +595,7 @@ class Wpsipd_Public
 							'pangkatkepala' => $v['pangkatkepala'],
 							'setupunit' => $v['setupunit'],
 							'statuskepala' => $v['statuskepala'],
+							'active' => 1,
 							'update_at' => current_time('mysql'),
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						);
@@ -1374,6 +1375,10 @@ class Wpsipd_Public
 					}
 					// print_r($ssh); die();
 				} else if ($ret['status'] != 'error') {
+					$wpdb->update('data_rka', array( 'active' => 0 ), array(
+						'tahun_anggaran' => $_POST['tahun_anggaran'],
+						'kode_sbl' => $_POST['kode_sbl']
+					));
 					$ret['status'] = 'error';
 					$ret['message'] = 'Format RKA Salah!';
 				}
