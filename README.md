@@ -25,5 +25,16 @@ Optimasi server apache agar proses pengiriman data dari chrome extension ke serv
 - memory_limit = 3556M
 - post_max_size = 20M
 
+Agar pengiriman data dari chrome extension ke WP mulus tambahkan kode berikut ini di file functions.php di folder wp-content/themes/<nama tema yg digunakan>
+
+add_filter('allowed_http_origins', 'add_allowed_origins');
+
+function add_allowed_origins($origins) {
+    $origins[] = 'chrome-extension://<ID ekstensi>';
+    return $origins;
+}
+
+(ID ekstensi dapat dilihat di chrome dengan membuka halaman: chrome://extensions/ )
+
 Permintaan fitur:
 - User umum bisa request penambahan fitur dengan membuat issue
