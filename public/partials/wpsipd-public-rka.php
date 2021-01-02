@@ -458,7 +458,7 @@ foreach ($bl as $k => $sub_bl) {
 	                    <td class="kiri atas kanan bawah text_blok" rowspan="2">Formulir<br/>RKA - RINCIAN BELANJA SKPD</td>
 	                </tr>
 	                <tr>
-	                    <td class="kiri atas kanan bawah">Pemerintah Kabupaten Magetan Tahun Anggaran <?php echo $tahun_anggaran; ?></td>
+	                    <td class="kiri atas kanan bawah">Pemerintah <?php echo DAERAH ." ". NAMADAERAH; ?> Tahun Anggaran <?php echo $tahun_anggaran; ?></td>
 	                </tr>
 	            </table>
 	        </td>
@@ -648,8 +648,24 @@ foreach ($bl as $k => $sub_bl) {
 	        </td>
 	        <td class="kiri kanan atas bawah" width="250" valign="top">
 	            <table width="100%" class="cellpadding_2" style="border-spacing: 0px;">
-	                <tr><td colspan="3" class="text_tengah">Kabupaten Magetan , Tanggal </td></tr>
-	                                                    <tr><td colspan="3" class="text_tengah text_15">Kepala&nbsp;<?php echo $unit[0]['namaunit']; ?></td></tr>
+	                <tr><td colspan="3" class="text_tengah"><?php echo NAMADAERAH .", ". TANGGAL; ?></td></tr>
+					<tr><td colspan="3" class="text_tengah text_15"><?php 
+					  if (strpos($unit[0]['namaunit'], "Kecamatan") !== false) {
+						echo str_replace("Kecamatan","Camat",$unit[0]['namaunit']);
+					  } else {
+					    if (strpos($unit[0]['namaunit'], "Inspektorat") !== false) {
+						  echo "Inspektur " . DAERAH ." ". NAMADAERAH;
+						} else {
+					      if (strpos($unit[0]['namaunit'], "Rumah Sakit") !== false) {
+							echo "Direktur " . $unit[0]['namaunit']; 
+						  } else {
+							if (strpos($unit[0]['namaunit'], "Sekretariat") !== false) {
+							  echo str_replace("Sekretariat","Sekretaris", $unit[0]['namaunit']) ." ". DAERAH ." ". NAMADAERAH ;
+							} else { echo "Kepala " . $unit[0]['namaunit']; }
+						  }
+						}
+					  }  
+					?></td></tr>
 	                <tr><td colspan="3" height="80">&nbsp;</td></tr>
 	                <tr><td colspan="3" class="text_tengah"><?php echo $unit[0]['namakepala']; ?></td></tr>
 	                <tr><td colspan="3" class="text_tengah"><?php echo $unit[0]['nipkepala']; ?></td></tr>

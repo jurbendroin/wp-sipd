@@ -5,3 +5,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'APIKEY', 'xxxxxxxxxxxxxxxxx' );
+define( 'NAMADAERAH', 'Karawang' );
+define( 'DAERAH', 'Kabupaten' );
+define( 'TANGGAL', '24 November 2020' );
