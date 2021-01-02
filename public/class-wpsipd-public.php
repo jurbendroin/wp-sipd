@@ -611,7 +611,7 @@ class Wpsipd_Public
 					}
 				} else if ($ret['status'] != 'error') {
 					$ret['status'] = 'error';
-					$ret['message'] = 'Format data Unit Salah!';
+					$ret['message'] = 'Tidak ada data unit yang dikirim!';
 				}
 			} else {
 				$ret['status'] = 'error';
@@ -951,8 +951,10 @@ class Wpsipd_Public
 							'id_skpd' => $data_unit['id_skpd'],
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						));
+						$ret['message'] = 'Sukses Update data_unit_pagu !';
 					} else {
 						$wpdb->insert('data_unit_pagu', $opsi);
+						$ret['message'] = 'Sukses Insert data_unit_pagu !';
 					}
 				} else if ($ret['status'] != 'error') {
 					$ret['status'] = 'error';
@@ -1025,7 +1027,7 @@ class Wpsipd_Public
 					}
 				} else if ($ret['status'] != 'error') {
 					$ret['status'] = 'error';
-					$ret['message'] = 'Format data Unit Salah!';
+					$ret['message'] = 'Data singkron_rka yg dikirim ke wp-sipd tidak disertai data Unit!';
 				}
 				if (!empty($_POST['dataBl']) && $ret['status'] != 'error') {
 					$dataBl = $_POST['dataBl'];
@@ -1146,7 +1148,7 @@ class Wpsipd_Public
 					}
 				} else if ($ret['status'] != 'error') {
 					$ret['status'] = 'error';
-					$ret['message'] = 'Format data BL Salah!';
+					$ret['message'] = 'Data singkron_rka yang dikirim ke wp-sipd tidak disertai data BL!';
 				}
 
 				if (!empty($_POST['dataOutput']) && $ret['status'] != 'error') {
@@ -1380,7 +1382,8 @@ class Wpsipd_Public
 						'kode_sbl' => $_POST['kode_sbl']
 					));
 					$ret['status'] = 'error';
-					$ret['message'] = 'Format RKA Salah!';
+					$ret['message'] = 'Data singkron_rka yg dikirim ke wp-sipd tidak disertai rincian belanja! ';
+					$ret['message'] .= 'Hanya menyimpan sampai dengan data sub kegiatan.';
 				}
 			} else {
 				$ret['status'] = 'error';
@@ -1388,7 +1391,7 @@ class Wpsipd_Public
 			}
 		} else {
 			$ret['status'] = 'error';
-			$ret['message'] = 'Format Salah!';
+			$ret['message'] = 'Tidak ada data yang dikirim!';
 		}
 		die(json_encode($ret));
 	}
@@ -1544,7 +1547,7 @@ class Wpsipd_Public
 			}
 		} else {
 			$ret['status'] = 'error';
-			$ret['message'] = 'Format Salah!';
+			$ret['message'] = 'Tidak ada data yang dikirim!';
 		}
 		die(json_encode($ret));
 	}
