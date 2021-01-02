@@ -19,8 +19,16 @@ $unit = $wpdb->get_results("
 	SELECT 
 		* 
 	from data_unit 
-	where idinduk=".$bl[0]['id_sub_skpd']
+	where id_skpd=".$bl[0]['id_sub_skpd']
 , ARRAY_A);
+if ($unit[0]['setupunit'] == 0) {
+	$unit = $wpdb->get_results("
+		SELECT 
+			* 
+		from data_unit 
+		where id_skpd='".$bl[0]['id_skpd']."'"
+	, ARRAY_A);
+}
 // print_r($bl); die();
 $bulan = array('Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
 

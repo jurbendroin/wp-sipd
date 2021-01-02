@@ -566,7 +566,7 @@ class Wpsipd_Public
 				if (!empty($_POST['data_unit'])) {
 					$data_unit = $_POST['data_unit'];
 					foreach ($data_unit as $k => $v) {
-						$cek = $wpdb->get_var("SELECT idinduk from data_unit where tahun_anggaran=".$_POST['tahun_anggaran']." AND idinduk=" . $v['idinduk']);
+						$cek = $wpdb->get_var("SELECT id_skpd from data_unit where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_skpd=" . $v['id_skpd']);
 						$opsi = array(
 							'id_setup_unit' => $v['id_setup_unit'],
 							'id_skpd' => $v['id_skpd'],
@@ -601,7 +601,7 @@ class Wpsipd_Public
 
 						if (!empty($cek)) {
 							$wpdb->update('data_unit', $opsi, array(
-								'idinduk' => $v['idinduk'],
+								'id_skpd' => $v['id_skpd'],
 								'tahun_anggaran' => $_POST['tahun_anggaran']
 							));
 						} else {
@@ -911,7 +911,8 @@ class Wpsipd_Public
 			if (!empty($_POST['api_key']) && $_POST['api_key'] == APIKEY) {
 				if (!empty($_POST['data'])) {
 					$data_unit = $_POST['data'];
-					$cek = $wpdb->get_var("SELECT id_unit from data_unit_pagu where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_unit=" . $data_unit['id_unit']);
+					$cek = $wpdb->get_var("SELECT id_skpd from data_unit_pagu where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_skpd=" . $data_unit['id_skpd']);
+					// id_unit di data ini adalah induk organisasi. Sedangkan pagu bukan di induk organisasi, tapi di induk rka. Data skpd yg dikirim adalah data induk rka.
 					$opsi = array(
 						'batasanpagu' => $data_unit['batasanpagu'],
 						'id_daerah' => $data_unit['id_daerah'],
@@ -946,7 +947,7 @@ class Wpsipd_Public
 
 					if (!empty($cek)) {
 						$wpdb->update('data_unit_pagu', $opsi, array(
-							'id_unit' => $v['id_unit'],
+							'id_skpd' => $data_unit['id_skpd'],
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						));
 					} else {
@@ -988,7 +989,7 @@ class Wpsipd_Public
 
 				if (!empty($_POST['data_unit'])) {
 					$data_unit = $_POST['data_unit'];
-					$cek = $wpdb->get_var("SELECT idinduk from data_unit where tahun_anggaran=".$_POST['tahun_anggaran']." AND idinduk=" . $data_unit['idinduk']);
+					$cek = $wpdb->get_var("SELECT id_skpd from data_unit where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_skpd=" . $data_unit['id_skpd']);
 					$opsi = array(
 						'bidur_1' => $data_unit['bidur_1'],
 						'bidur_2' => $data_unit['bidur_2'],
@@ -1015,7 +1016,7 @@ class Wpsipd_Public
 
 					if (!empty($cek)) {
 						$wpdb->update('data_unit', $opsi, array(
-							'idinduk' => $v['idinduk'],
+							'id_skpd' => $data_unit['id_skpd'],
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						));
 					} else {
