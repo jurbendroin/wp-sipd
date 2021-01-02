@@ -816,7 +816,12 @@ class Wpsipd_Public
 				if (!empty($_POST['alamat'])) {
 					$alamat = $_POST['alamat'];
 					foreach ($alamat as $k => $v) {
-						$cek = $wpdb->get_var("SELECT id_alamat from data_alamat where tahun=".$_POST['tahun_anggaran']." AND id_alamat=" . $v['id_alamat']);
+						$cek = $wpdb->get_var("SELECT id from data_alamat where tahun=".$_POST['tahun_anggaran']." 
+						AND id_alamat='" . $v['id_alamat']."' 
+						AND is_prov='" . $v['is_prov']."' 
+						AND is_kab='" . $v['is_kab']."' 
+						AND is_kec='" . $v['is_kec']."' 
+						AND is_kel='" . $v['is_kel'] . "'");
 						$opsi = array(
 							'id_alamat' => $v['id_alamat'],
 							'nama' => $v['nama'],
@@ -834,7 +839,7 @@ class Wpsipd_Public
 						if (!empty($cek)) {
 							$wpdb->update('data_alamat', $opsi, array(
 								'tahun' => $_POST['tahun_anggaran'],
-								'id_alamat' => $v['id_alamat']
+								'id' => $cek
 							));
 						} else {
 							$wpdb->insert('data_alamat', $opsi);
