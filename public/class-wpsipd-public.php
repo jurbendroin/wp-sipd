@@ -117,17 +117,7 @@ class Wpsipd_Public
 					foreach ($ssh as $k => $v) {
 						$cek = $wpdb->get_var("SELECT id_standar_harga from data_ssh where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_standar_harga=" . $v['id_standar_harga']);
 						$kelompok = explode(' ', $v['nama_kel_standar_harga']);
-						$opsi = array(
-							'id_standar_harga' => $v['id_standar_harga'],
-							'kode_standar_harga' => $v['kode_standar_harga'],
-							'nama_standar_harga' => $v['nama_standar_harga'],
-							'satuan' => $v['satuan'],
-							'spek' => $v['spek'],
-							'is_deleted' => $v['is_deleted'],
-							'is_locked' => $v['is_locked'],
-							'kelompok' => $v['kelompok'],
-							'harga' => $v['harga'],
-							'kode_kel_standar_harga' => $v['kode_kel_standar_harga'],
+						$opsi = $v + array(
 							'nama_kel_standar_harga' => $kelompok[1],
 							'update_at'	=> current_time('mysql'),
 							'tahun_anggaran'	=> $_POST['tahun_anggaran']
@@ -277,60 +267,7 @@ class Wpsipd_Public
 				if (!empty($_POST['data'])) {
 					$data = $_POST['data'];
 					$cek = $wpdb->get_var("SELECT id_lurah from data_desa_kelurahan where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_lurah=" . $data['id_lurah']);
-					$opsi = array(
-						'camat_teks' => $data['camat_teks'],
-						'id_camat' => $data['id_camat'],
-						'id_daerah' => $data['id_daerah'],
-						'id_level' => $data['id_level'],
-						'id_lurah' => $data['id_lurah'],
-						'id_profil' => $data['id_profil'],
-						'id_user' => $data['id_user'],
-						'is_desa' => $data['is_desa'],
-						'is_locked' => $data['is_locked'],
-						'jenis' => $data['jenis'],
-						'kab_kota' => $data['kab_kota'],
-						'kode_lurah' => $data['kode_lurah'],
-						'login_name' => $data['login_name'],
-						'lurah_teks' => $data['lurah_teks'],
-						'nama_daerah' => $data['nama_daerah'],
-						'nama_user' => $data['nama_user'],
-						'accasmas' => $data['accasmas'],
-						'accbankeu' => $data['accbankeu'],
-						'accdisposisi' => $data['accdisposisi'],
-						'accgiat' => $data['accgiat'],
-						'acchibah' => $data['acchibah'],
-						'accinput' => $data['accinput'],
-						'accjadwal' => $data['accjadwal'],
-						'acckunci' => $data['acckunci'],
-						'accmaster' => $data['accmaster'],
-						'accspv' => $data['accspv'],
-						'accunit' => $data['accunit'],
-						'accusulan' => $data['accusulan'],
-						'alamatteks' => $data['alamatteks'],
-						'camatteks' => $data['camatteks'],
-						'daerahpengusul' => $data['daerahpengusul'],
-						'dapil' => $data['dapil'],
-						'emailteks' => $data['emailteks'],
-						'fraksi' => $data['fraksi'],
-						'idcamat' => $data['idcamat'],
-						'iddaerahpengusul' => $data['iddaerahpengusul'],
-						'idkabkota' => $data['idkabkota'],
-						'idlevel' => $data['idlevel'],
-						'idlokasidesa' => $data['idlokasidesa'],
-						'idlurah' => $data['idlurah'],
-						'idlurahpengusul' => $data['idlurahpengusul'],
-						'idprofil' => $data['idprofil'],
-						'iduser' => $data['iduser'],
-						'jabatan' => $data['jabatan'],
-						'loginname' => $data['loginname'],
-						'lokasidesateks' => $data['lokasidesateks'],
-						'lurahteks' => $data['lurahteks'],
-						'nama' => $data['nama'],
-						'namapengusul' => $data['namapengusul'],
-						'nik' => $data['nik'],
-						'nip' => $data['nip'],
-						'notelp' => $data['notelp'],
-						'npwp' => $data['npwp'],
+					$opsi = $data + array(
 						'update_at' => current_time('mysql'),
 						'tahun_anggaran' => $_POST['tahun_anggaran']
 					);
@@ -370,44 +307,7 @@ class Wpsipd_Public
 				if (!empty($_POST['data'])) {
 					$data = $_POST['data'];
 					$cek = $wpdb->get_var("SELECT iduser from data_dewan where tahun_anggaran=".$_POST['tahun_anggaran']." AND iduser=" . $data['iduser']);
-					$opsi = array(
-						'accasmas' => $data['accasmas'],
-						'accbankeu' => $data['accbankeu'],
-						'accdisposisi' => $data['accdisposisi'],
-						'accgiat' => $data['accgiat'],
-						'acchibah' => $data['acchibah'],
-						'accinput' => $data['accinput'],
-						'accjadwal' => $data['accjadwal'],
-						'acckunci' => $data['acckunci'],
-						'accmaster' => $data['accmaster'],
-						'accspv' => $data['accspv'],
-						'accunit' => $data['accunit'],
-						'accusulan' => $data['accusulan'],
-						'alamatteks' => $data['alamatteks'],
-						'camatteks' => $data['camatteks'],
-						'daerahpengusul' => $data['daerahpengusul'],
-						'dapil' => $data['dapil'],
-						'emailteks' => $data['emailteks'],
-						'fraksi' => $data['fraksi'],
-						'idcamat' => $data['idcamat'],
-						'iddaerahpengusul' => $data['iddaerahpengusul'],
-						'idkabkota' => $data['idkabkota'],
-						'idlevel' => $data['idlevel'],
-						'idlokasidesa' => $data['idlokasidesa'],
-						'idlurah' => $data['idlurah'],
-						'idlurahpengusul' => $data['idlurahpengusul'],
-						'idprofil' => $data['idprofil'],
-						'iduser' => $data['iduser'],
-						'jabatan' => $data['jabatan'],
-						'loginname' => $data['loginname'],
-						'lokasidesateks' => $data['lokasidesateks'],
-						'lurahteks' => $data['lurahteks'],
-						'nama' => $data['nama'],
-						'namapengusul' => $data['namapengusul'],
-						'nik' => $data['nik'],
-						'nip' => $data['nip'],
-						'notelp' => $data['notelp'],
-						'npwp' => $data['npwp'],
+					$opsi = $data + array(
 						'update_at' => current_time('mysql'),
 						'tahun_anggaran' => $_POST['tahun_anggaran']
 					);
@@ -447,16 +347,7 @@ class Wpsipd_Public
 				if (!empty($_POST['data'])) {
 					$data = $_POST['data'];
 					$cek = $wpdb->get_var("SELECT kepala_daerah from data_pengaturan_sipd where tahun_anggaran=".$_POST['tahun_anggaran']." AND kepala_daerah='".$data['kepala_daerah']."'");
-					$opsi = array(
-						'daerah' => $data['daerah'],
-						'kepala_daerah' => $data['kepala_daerah'],
-						'wakil_kepala_daerah' => $data['wakil_kepala_daerah'],
-						'awal_rpjmd' => $data['awal_rpjmd'],
-						'akhir_rpjmd' => $data['akhir_rpjmd'],
-						'pelaksana_rkpd' => $data['pelaksana_rkpd'],
-						'pelaksana_kua' => $data['pelaksana_kua'],
-						'pelaksana_apbd' => $data['pelaksana_apbd'],
-						'set_kpa_sekda' => $data['set_kpa_sekda'],
+					$opsi = $data + array(
 						'update_at' => current_time('mysql'),
 						'tahun_anggaran' => $_POST['tahun_anggaran']
 					);
@@ -500,32 +391,7 @@ class Wpsipd_Public
 					$akun = $_POST['akun'];
 					foreach ($akun as $k => $v) {
 						$cek = $wpdb->get_var("SELECT id_akun from data_akun where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_akun=" . $v['id_akun']);
-						$opsi = array(
-							'belanja' => $v['belanja'],
-							'id_akun' => $v['id_akun'],
-							'is_bagi_hasil' => $v['is_bagi_hasil'],
-							'is_bankeu_khusus' => $v['is_bankeu_khusus'],
-							'is_bankeu_umum' => $v['is_bankeu_umum'],
-							'is_barjas' => $v['is_barjas'],
-							'is_bl' => $v['is_bl'],
-							'is_bos' => $v['is_bos'],
-							'is_btt' => $v['is_btt'],
-							'is_bunga' => $v['is_bunga'],
-							'is_gaji_asn' => $v['is_gaji_asn'],
-							'is_hibah_brg' => $v['is_hibah_brg'],
-							'is_hibah_uang' => $v['is_hibah_uang'],
-							'is_locked' => $v['is_locked'],
-							'is_modal_tanah' => $v['is_modal_tanah'],
-							'is_pembiayaan' => $v['is_pembiayaan'],
-							'is_pendapatan' => $v['is_pendapatan'],
-							'is_sosial_brg' => $v['is_sosial_brg'],
-							'is_sosial_uang' => $v['is_sosial_uang'],
-							'is_subsidi' => $v['is_subsidi'],
-							'kode_akun' => $v['kode_akun'],
-							'nama_akun' => $v['nama_akun'],
-							'set_input' => $v['set_input'],
-							'set_lokus' => $v['set_lokus'],
-							'status' => $v['status'],
+						$opsi = $v + array(
 							'update_at' => current_time('mysql'),
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						);
@@ -567,34 +433,7 @@ class Wpsipd_Public
 					$data_unit = $_POST['data_unit'];
 					foreach ($data_unit as $k => $v) {
 						$cek = $wpdb->get_var("SELECT id_skpd from data_unit where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_skpd=" . $v['id_skpd']);
-						$opsi = array(
-							'id_setup_unit' => $v['id_setup_unit'],
-							'id_skpd' => $v['id_skpd'],
-							'id_unit' => $v['id_unit'],
-							'is_skpd' => $v['is_skpd'],
-							'kode_skpd' => $v['kode_skpd'],
-							'kunci_skpd' => $v['kunci_skpd'],
-							'nama_skpd' => $v['nama_skpd'],
-							'posisi' => $v['posisi'],
-							'status' => $v['status'],
-							'bidur_1' => $v['bidur_1'],
-							'bidur_2' => $v['bidur_2'],
-							'bidur_3' => $v['bidur_3'],
-							'idinduk' => $v['idinduk'],
-							'ispendapatan' => $v['ispendapatan'],
-							'isskpd' => $v['isskpd'],
-							'kode_skpd_1' => $v['kode_skpd_1'],
-							'kode_skpd_2' => $v['kode_skpd_2'],
-							'kodeunit' => $v['kodeunit'],
-							'komisi' => $v['komisi'],
-							'namabendahara' => $v['namabendahara'],
-							'namakepala' => $v['namakepala'],
-							'namaunit' => $v['namaunit'],
-							'nipbendahara' => $v['nipbendahara'],
-							'nipkepala' => $v['nipkepala'],
-							'pangkatkepala' => $v['pangkatkepala'],
-							'setupunit' => $v['setupunit'],
-							'statuskepala' => $v['statuskepala'],
+						$opsi = $v + array(
 							'active' => 1,
 							'update_at' => current_time('mysql'),
 							'tahun_anggaran' => $_POST['tahun_anggaran']
@@ -636,23 +475,7 @@ class Wpsipd_Public
 					$sub_giat = $_POST['subgiat'];
 					foreach ($sub_giat as $k => $v) {
 						$cek = $wpdb->get_var("SELECT id_sub_giat from data_prog_keg where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_sub_giat=" . $v['id_sub_giat']);
-						$opsi = array(
-							'id_bidang_urusan' => $v['id_bidang_urusan'],
-							'id_program' => $v['id_program'],
-							'id_sub_giat' => $v['id_sub_giat'],
-							'id_urusan' => $v['id_urusan'],
-							'is_locked' => $v['is_locked'],
-							'kode_bidang_urusan' => $v['kode_bidang_urusan'],
-							'kode_giat' => $v['kode_giat'],
-							'kode_program' => $v['kode_program'],
-							'kode_sub_giat' => $v['kode_sub_giat'],
-							'kode_urusan' => $v['kode_urusan'],
-							'nama_bidang_urusan' => $v['nama_bidang_urusan'],
-							'nama_giat' => $v['nama_giat'],
-							'nama_program' => $v['nama_program'],
-							'nama_sub_giat' => $v['nama_sub_giat'],
-							'nama_urusan' => $v['nama_urusan'],
-							'status' => $v['status'],
+						$opsi = $v + array(
 							'update_at' => current_time('mysql'),
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						);
@@ -694,34 +517,7 @@ class Wpsipd_Public
 					$data_rpjmd = $_POST['rpjmd'];
 					foreach ($data_rpjmd as $k => $v) {
 						$cek = $wpdb->get_var("SELECT id_rpjmd from data_rpjmd where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_rpjmd=" . $v['id_rpjmd']);
-						$opsi = array(
-							'id_bidang_urusan' => $v['id_bidang_urusan'],
-							'id_program' => $v['id_program'],
-							'id_rpjmd' => $v['id_rpjmd'],
-							'indikator' => $v['indikator'],
-							'kebijakan_teks' => $v['kebijakan_teks'],
-							'kode_bidang_urusan' => $v['kode_bidang_urusan'],
-							'kode_program' => $v['kode_program'],
-							'kode_skpd' => $v['kode_skpd'],
-							'misi_teks' => $v['misi_teks'],
-							'nama_bidang_urusan' => $v['nama_bidang_urusan'],
-							'nama_program' => $v['nama_program'],
-							'nama_skpd' => $v['nama_skpd'],
-							'pagu_1' => $v['pagu_1'],
-							'pagu_2' => $v['pagu_2'],
-							'pagu_3' => $v['pagu_3'],
-							'pagu_4' => $v['pagu_4'],
-							'pagu_5' => $v['pagu_5'],
-							'sasaran_teks' => $v['sasaran_teks'],
-							'satuan' => $v['satuan'],
-							'strategi_teks' => $v['strategi_teks'],
-							'target_1' => $v['target_1'],
-							'target_2' => $v['target_2'],
-							'target_3' => $v['target_3'],
-							'target_4' => $v['target_4'],
-							'target_5' => $v['target_5'],
-							'tujuan_teks' => $v['tujuan_teks'],
-							'visi_teks' => $v['visi_teks'],
+						$opsi = $v + array(
 							'update_at' => current_time('mysql'),
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						);
@@ -763,19 +559,7 @@ class Wpsipd_Public
 					$sumber_dana = $_POST['dana'];
 					foreach ($sumber_dana as $k => $v) {
 						$cek = $wpdb->get_var("SELECT id_dana from data_sumber_dana where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_dana=" . $v['id_dana']);
-						$opsi = array(
-							'created_at' => $v['created_at'],
-							'created_user' => $v['created_user'],
-							'id_daerah' => $v['id_daerah'],
-							'id_dana' => $v['id_dana'],
-							'id_unik' => $v['id_unik'],
-							'is_locked' => $v['is_locked'],
-							'kode_dana' => $v['kode_dana'],
-							'nama_dana' => $v['nama_dana'],
-							'set_input' => $v['set_input'],
-							'status' => $v['status'],
-							'tahun' => $v['tahun'],
-							'updated_user' => $v['updated_user'],
+						$opsi = $v + array(
 							'updated_at' => current_time('mysql'),
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						);
@@ -822,16 +606,7 @@ class Wpsipd_Public
 						AND is_kab='" . $v['is_kab']."' 
 						AND is_kec='" . $v['is_kec']."' 
 						AND is_kel='" . $v['is_kel'] . "'");
-						$opsi = array(
-							'id_alamat' => $v['id_alamat'],
-							'nama' => $v['nama'],
-							'id_prov' => $v['id_prov'],
-							'id_kab' => $v['id_kab'],
-							'id_kec' => $v['id_kec'],
-							'is_prov' => $v['is_prov'],
-							'is_kab' => $v['is_kab'],
-							'is_kec' => $v['is_kec'],
-							'is_kel' => $v['is_kel'],
+						$opsi = $v + array(
 							'tahun' => $_POST['tahun_anggaran'],
 							'updated_at' => current_time('mysql')
 						);
@@ -873,11 +648,7 @@ class Wpsipd_Public
 					$profile = $_POST['profile'];
 					foreach ($profile as $k => $v) {
 						$cek = $wpdb->get_var("SELECT id_profil from data_profile_penerima_bantuan where tahun=".$_POST['tahun_anggaran']." AND id_profil=" . $v['id_profil']);
-						$opsi = array(
-							'alamat_teks' => $v['alamat_teks'],
-							'id_profil' => $v['id_profil'],
-							'jenis_penerima' => $v['jenis_penerima'],
-							'nama_teks' => $v['nama_teks'],
+						$opsi = $v + array(
 							'tahun' => $_POST['tahun_anggaran'],
 							'updated_at' => current_time('mysql')
 						);
@@ -919,34 +690,7 @@ class Wpsipd_Public
 					$data_unit = $_POST['data'];
 					$cek = $wpdb->get_var("SELECT id_skpd from data_unit_pagu where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_skpd=" . $data_unit['id_skpd']);
 					// id_unit di data ini adalah induk organisasi. Sedangkan pagu bukan di induk organisasi, tapi di induk rka. Data skpd yg dikirim adalah data induk rka.
-					$opsi = array(
-						'batasanpagu' => $data_unit['batasanpagu'],
-						'id_daerah' => $data_unit['id_daerah'],
-						'id_level' => $data_unit['id_level'],
-						'id_skpd' => $data_unit['id_skpd'],
-						'id_unit' => $data_unit['id_unit'],
-						'id_user' => $data_unit['id_user'],
-						'is_anggaran' => $data_unit['is_anggaran'],
-						'is_deleted' => $data_unit['is_deleted'],
-						'is_komponen' => $data_unit['is_komponen'],
-						'is_locked' => $data_unit['is_locked'],
-						'is_skpd' => $data_unit['is_skpd'],
-						'kode_skpd' => $data_unit['kode_skpd'],
-						'kunci_bl' => $data_unit['kunci_bl'],
-						'kunci_bl_rinci' => $data_unit['kunci_bl_rinci'],
-						'kuncibl' => $data_unit['kuncibl'],
-						'kunciblrinci' => $data_unit['kunciblrinci'],
-						'nilaipagu' => $data_unit['nilaipagu'],
-						'nilaipagumurni' => $data_unit['nilaipagumurni'],
-						'nilairincian' => $data_unit['nilairincian'],
-						'pagu_giat' => $data_unit['pagu_giat'],
-						'realisasi' => $data_unit['realisasi'],
-						'rinci_giat' => $data_unit['rinci_giat'],
-						'set_pagu_giat' => $data_unit['set_pagu_giat'],
-						'set_pagu_skpd' => $data_unit['set_pagu_skpd'],
-						'tahun' => $data_unit['tahun'],
-						'total_giat' => $data_unit['total_giat'],
-						'totalgiat' => $data_unit['totalgiat'],
+					$opsi = $data_unit + array(
 						'update_at' => current_time('mysql'),
 						'tahun_anggaran' => $_POST['tahun_anggaran']
 					);
@@ -998,25 +742,7 @@ class Wpsipd_Public
 				if (!empty($_POST['data_unit'])) {
 					$data_unit = $_POST['data_unit'];
 					$cek = $wpdb->get_var("SELECT id_skpd from data_unit where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_skpd=" . $data_unit['id_skpd']);
-					$opsi = array(
-						'bidur_1' => $data_unit['bidur_1'],
-						'bidur_2' => $data_unit['bidur_2'],
-						'bidur_3' => $data_unit['bidur_3'],
-						'idinduk' => $data_unit['idinduk'],
-						'ispendapatan' => $data_unit['ispendapatan'],
-						'isskpd' => $data_unit['isskpd'],
-						'kode_skpd_1' => $data_unit['kode_skpd_1'],
-						'kode_skpd_2' => $data_unit['kode_skpd_2'],
-						'kodeunit' => $data_unit['kodeunit'],
-						'komisi' => $data_unit['komisi'],
-						'namabendahara' => $data_unit['namabendahara'],
-						'namakepala' => $data_unit['namakepala'],
-						'namaunit' => $data_unit['namaunit'],
-						'nipbendahara' => $data_unit['nipbendahara'],
-						'nipkepala' => $data_unit['nipkepala'],
-						'pangkatkepala' => $data_unit['pangkatkepala'],
-						'setupunit' => $data_unit['setupunit'],
-						'statuskepala' => $data_unit['statuskepala'],
+					$opsi = $data_unit + array(
 						'active' => 1,
 						'update_at' => current_time('mysql'),
 						'tahun_anggaran' => $_POST['tahun_anggaran']
@@ -1038,60 +764,11 @@ class Wpsipd_Public
 					$dataBl = $_POST['dataBl'];
 					foreach ($dataBl as $k => $v) {
 						$cek = $wpdb->get_var("SELECT kode_sbl from data_sub_keg_bl where tahun_anggaran=".$_POST['tahun_anggaran']." AND kode_sbl='" . $_POST['kode_sbl'] . "'");
-						$opsi = array(
-							'id_sub_skpd' => $v['id_sub_skpd'],
-							'id_lokasi' => $v['id_lokasi'],
-							'id_label_kokab' => $v['id_label_kokab'],
-							'nama_dana' => $v['nama_dana'],
-							'no_sub_giat' => $v['no_sub_giat'],
-							'kode_giat' => $v['kode_giat'],
-							'id_program' => $v['id_program'],
-							'nama_lokasi' => $v['nama_lokasi'],
-							'waktu_akhir' => $v['waktu_akhir'],
-							'pagu_n_lalu' => $v['pagu_n_lalu'],
-							'id_urusan' => $v['id_urusan'],
-							'id_unik_sub_bl' => $v['id_unik_sub_bl'],
-							'id_sub_giat' => $v['id_sub_giat'],
-							'label_prov' => $v['label_prov'],
-							'kode_program' => $v['kode_program'],
-							'kode_sub_giat' => $v['kode_sub_giat'],
-							'no_program' => $v['no_program'],
-							'kode_urusan' => $v['kode_urusan'],
-							'kode_bidang_urusan' => $v['kode_bidang_urusan'],
-							'nama_program' => $v['nama_program'],
-							'target_4' => $v['target_4'],
-							'target_5' => $v['target_5'],
-							'id_bidang_urusan' => $v['id_bidang_urusan'],
-							'nama_bidang_urusan' => $v['nama_bidang_urusan'],
-							'target_3' => $v['target_3'],
-							'no_giat' => $v['no_giat'],
-							'id_label_prov' => $v['id_label_prov'],
-							'waktu_awal' => $v['waktu_awal'],
-							'pagu' => $v['pagu'],
-							'output_sub_giat' => $v['output_sub_giat'],
-							'sasaran' => $v['sasaran'],
-							'indikator' => $v['indikator'],
-							'id_dana' => $v['id_dana'],
-							'nama_sub_giat' => $v['nama_sub_giat'],
-							'pagu_n_depan' => $v['pagu_n_depan'],
-							'satuan' => $v['satuan'],
-							'id_rpjmd' => $v['id_rpjmd'],
-							'id_giat' => $v['id_giat'],
-							'id_label_pusat' => $v['id_label_pusat'],
-							'nama_giat' => $v['nama_giat'],
+						$opsi = $v + array(
 							'kode_skpd' => $_POST['kode_skpd'],
 							'nama_skpd' => $_POST['nama_skpd'],
 							'kode_sub_skpd' => $_POST['kode_sub_skpd'],
-							'id_skpd' => $v['id_skpd'],
-							'id_sub_bl' => $v['id_sub_bl'],
-							'nama_sub_skpd' => $v['nama_sub_skpd'],
-							'target_1' => $v['target_1'],
-							'nama_urusan' => $v['nama_urusan'],
-							'target_2' => $v['target_2'],
-							'label_kokab' => $v['label_kokab'],
-							'label_pusat' => $v['label_pusat'],
 							'pagu_keg' => $_POST['pagu'],
-							'id_bl' => $v['id_bl'],
 							'kode_bl' => $_POST['kode_bl'],
 							'kode_sbl' => $_POST['kode_sbl'],
 							'active' => 1,
@@ -1164,12 +841,7 @@ class Wpsipd_Public
 					));
 					foreach ($dataOutput as $k => $v) {
 						$cek = $wpdb->get_var("SELECT kode_sbl from data_sub_keg_indikator where tahun_anggaran=".$_POST['tahun_anggaran']." AND kode_sbl='" . $_POST['kode_sbl'] . "' AND idoutputbl='" . $v['idoutputbl'] . "'");
-						$opsi = array(
-							'outputteks' => $v['outputteks'],
-							'targetoutput' => $v['targetoutput'],
-							'satuanoutput' => $v['satuanoutput'],
-							'idoutputbl' => $v['idoutputbl'],
-							'targetoutputteks' => $v['targetoutputteks'],
+						$opsi = $v + array(
 							'kode_sbl' => $_POST['kode_sbl'],
 							'idsubbl' => $_POST['idsubbl'],
 							'active' => 1,
@@ -1196,10 +868,7 @@ class Wpsipd_Public
 					));
 					foreach ($dataTag as $k => $v) {
 						$cek = $wpdb->get_var("SELECT kode_sbl from data_tag_sub_keg where tahun_anggaran=".$_POST['tahun_anggaran']." AND kode_sbl='" . $_POST['kode_sbl'] . "' AND idtagbl='" . $v['idtagbl'] . "'");
-						$opsi = array(
-							'idlabelgiat' => $v['idlabelgiat'],
-							'namalabel' => $v['namalabel'],
-							'idtagbl' => $v['idtagbl'],
+						$opsi = $v + array(
 							'kode_sbl' => $_POST['kode_sbl'],
 							'idsubbl' => $_POST['idsubbl'],
 							'active' => 1,
@@ -1226,11 +895,7 @@ class Wpsipd_Public
 					));
 					foreach ($dataCapaian as $k => $v) {
 						$cek = $wpdb->get_var("SELECT kode_sbl from data_capaian_prog_sub_keg where tahun_anggaran=".$_POST['tahun_anggaran']." AND kode_sbl='" . $_POST['kode_sbl'] . "' AND capaianteks='" . $v['capaianteks'] . "'");
-						$opsi = array(
-							'satuancapaian' => $v['satuancapaian'],
-							'targetcapaianteks' => $v['targetcapaianteks'],
-							'capaianteks' => $v['capaianteks'],
-							'targetcapaian' => $v['targetcapaian'],
+						$opsi = $v + array(
 							'kode_sbl' => $_POST['kode_sbl'],
 							'idsubbl' => $_POST['idsubbl'],
 							'active' => 1,
@@ -1257,11 +922,7 @@ class Wpsipd_Public
 					));
 					foreach ($dataOutputGiat as $k => $v) {
 						$cek = $wpdb->get_var("SELECT kode_sbl from data_output_giat_sub_keg where tahun_anggaran=".$_POST['tahun_anggaran']." AND kode_sbl='" . $_POST['kode_sbl'] . "' AND outputteks='" . $v['outputteks'] . "'");
-						$opsi = array(
-							'outputteks' => $v['outputteks'],
-							'satuanoutput' => $v['satuanoutput'],
-							'targetoutput' => $v['targetoutput'],
-							'targetoutputteks' => $v['targetoutputteks'],
+						$opsi = $v + array(
 							'kode_sbl' => $_POST['kode_sbl'],
 							'idsubbl' => $_POST['idsubbl'],
 							'active' => 1,
@@ -1288,11 +949,7 @@ class Wpsipd_Public
 					));
 					foreach ($dataDana as $k => $v) {
 						$cek = $wpdb->get_var("SELECT kode_sbl from data_dana_sub_keg where tahun_anggaran=".$_POST['tahun_anggaran']." AND kode_sbl='" . $_POST['kode_sbl'] . "' AND iddanasubbl='" . $v['iddanasubbl'] . "'");
-						$opsi = array(
-							'namadana' => $v['namadana'],
-							'kodedana' => $v['kodedana'],
-							'iddana' => $v['iddana'],
-							'iddanasubbl' => $v['iddanasubbl'],
+						$opsi = $v + array(
 							'kode_sbl' => $_POST['kode_sbl'],
 							'idsubbl' => $_POST['idsubbl'],
 							'active' => 1,
@@ -1319,54 +976,11 @@ class Wpsipd_Public
 					));
 					foreach ($rka as $k => $v) {
 						$cek = $wpdb->get_var("SELECT id_rinci_sub_bl from data_rka where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_rinci_sub_bl='" . $v['id_rinci_sub_bl'] . "'");
-						$opsi = array(
-							'created_user' => $v['created_user'],
-							'createddate' => $v['createddate'],
-							'createdtime' => $v['createdtime'],
-							'harga_satuan' => $v['harga_satuan'],
-							'id_daerah' => $v['id_daerah'],
-							'id_rinci_sub_bl' => $v['id_rinci_sub_bl'],
-							'id_standar_nfs' => $v['id_standar_nfs'],
-							'is_locked' => $v['is_locked'],
-							'jenis_bl' => $v['jenis_bl'],
-							'ket_bl_teks' => $v['ket_bl_teks'],
-							'kode_akun' => $v['kode_akun'],
-							'koefisien' => $v['koefisien'],
-							'lokus_akun_teks' => $v['lokus_akun_teks'],
-							'nama_akun' => $v['nama_akun'],
-							'nama_komponen' => $v['nama_komponen'],
-							'spek_komponen' => $v['spek_komponen'],
-							'satuan' => $v['satuan'],
-							'sat1' => $v['sat1'],
-							'sat2' => $v['sat2'],
-							'sat3' => $v['sat3'],
-							'sat4' => $v['sat4'],
-							'volum1' => $v['volum1'],
-							'volum2' => $v['volum2'],
-							'volum3' => $v['volum3'],
-							'volum4' => $v['volum4'],
-							'spek' => $v['spek'],
-							'subs_bl_teks' => $v['subs_bl_teks'],
-							'total_harga' => $v['total_harga'],
-							'rincian' => $v['rincian'],
-							'totalpajak' => $v['totalpajak'],
-							'updated_user' => $v['updated_user'],
-							'updateddate' => $v['updateddate'],
-							'updatedtime' => $v['updatedtime'],
-							'user1' => $v['user1'],
-							'user2' => $v['user2'],
+						$opsi = $v + array(
 							'idbl' => $_POST['idbl'],
 							'idsubbl' => $_POST['idsubbl'],
 							'kode_bl' => $_POST['kode_bl'],
 							'kode_sbl' => $_POST['kode_sbl'],
-							'id_prop_penerima' => $v['id_prop_penerima'],
-							'id_camat_penerima' => $v['id_camat_penerima'],
-							'id_kokab_penerima' => $v['id_kokab_penerima'],
-							'id_lurah_penerima' => $v['id_lurah_penerima'],
-							'id_penerima' => $v['id_penerima'],
-							'idkomponen' => $v['idkomponen'],
-							'idketerangan' => $v['idketerangan'],
-							'idsubtitle' => $v['idsubtitle'],
 							'active' => 1,
 							'update_at' => current_time('mysql'),
 							'tahun_anggaran' => $_POST['tahun_anggaran']
