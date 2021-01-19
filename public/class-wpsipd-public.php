@@ -474,6 +474,7 @@ class Wpsipd_Public
 				if (!empty($_POST['subgiat'])) {
 					$sub_giat = $_POST['subgiat'];
 					foreach ($sub_giat as $k => $v) {
+						unset($v['action']);
 						$cek = $wpdb->get_var("SELECT id_sub_giat from data_prog_keg where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_sub_giat=" . $v['id_sub_giat']);
 						$opsi = $v + array(
 							'update_at' => current_time('mysql'),
@@ -504,12 +505,61 @@ class Wpsipd_Public
 		die(json_encode($ret));
 	}
 
+	public function singkron_data_usulan()
+	{
+		global $wpdb;
+		$ret = array(
+			'status'	=> 'success',
+			'message'	=> 'Berhasil singkron data usulan musrenbang / masyarakat!'
+		);
+		if (!empty($_POST)) {
+			if (!empty($_POST['api_key']) && $_POST['api_key'] == APIKEY) {
+				if (!empty($_POST['data_usulan'])) {
+					$data_usulan = $_POST['data_usulan'];
+					foreach ($data_usulan as $k => $v) {
+						if ($_POST['jenis'] === 'asmas') $cek1 = $wpdb->get_var("SELECT id_usulan from data_usulan where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_usulan=" . $v['id_usulan']." AND id_reses is null");
+						
+						if ($_POST['jenis'] === 'reses') $cek2 = $wpdb->get_var("SELECT id_reses from data_usulan where tahun_anggaran=".$_POST['tahun_anggaran']." AND id_usulan is null AND id_reses=" . $v['id_reses']);
+						$opsi = $v + array(
+							'update_at' => current_time('mysql'),
+							'tahun_anggaran' => $_POST['tahun_anggaran']
+						);
+
+						if (!empty($cek1)) {
+							$wpdb->update('data_usulan', $opsi, array(
+								'id_usulan' => $v['id_usulan'],
+								'tahun_anggaran' => $_POST['tahun_anggaran']
+							));
+						} else if (!empty($cek2)) {
+							$wpdb->update('data_usulan', $opsi, array(
+								'id_reses' => $v['id_reses'],
+								'tahun_anggaran' => $_POST['tahun_anggaran']
+							));
+						} else {
+							$wpdb->insert('data_usulan', $opsi);
+						}
+					}
+				} else if ($ret['status'] != 'error') {
+					$ret['status'] = 'error';
+					$ret['message'] = 'Format data Salah!';
+				}
+			} else {
+				$ret['status'] = 'error';
+				$ret['message'] = 'APIKEY tidak sesuai!';
+			}
+		} else {
+			$ret['status'] = 'error';
+			$ret['message'] = 'Format Salah!';
+		}
+		die(json_encode($ret));
+	}
+
 	public function singkron_data_rpjmd()
 	{
 		global $wpdb;
 		$ret = array(
 			'status'	=> 'success',
-			'message'	=> 'Berhasil set program kegiatan!'
+			'message'	=> 'Berhasil set program kegiatan RPJMD!'
 		);
 		if (!empty($_POST)) {
 			if (!empty($_POST['api_key']) && $_POST['api_key'] == APIKEY) {
@@ -551,7 +601,7 @@ class Wpsipd_Public
 		global $wpdb;
 		$ret = array(
 			'status'	=> 'success',
-			'message'	=> 'Berhasil set program kegiatan!'
+			'message'	=> 'Berhasil set Sumber Dana!'
 		);
 		if (!empty($_POST)) {
 			if (!empty($_POST['api_key']) && $_POST['api_key'] == APIKEY) {

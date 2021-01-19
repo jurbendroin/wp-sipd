@@ -59,34 +59,34 @@ foreach ($bl as $k => $sub_bl) {
 		';
 	}
 	$rin_sub .= '
-		<tr>
+		<tr width="100%">
             <td class="kiri kanan bawah" colspan="13">
-                <table>
+                <table width="100%" class="no-border" style="border:none;">
                     <tr>
-                        <td width="130">Sub Kegiatan</td>
+                        <td class="text_kiri" width="130">Sub Kegiatan</td>
                         <td width="10">:</td>
-                        <td>'.$sub_bl['nama_sub_giat'].'</td>
+                        <td class="text_kiri" >'.$sub_bl['nama_sub_giat'].'</td>
                     </tr>
                     <tr>
-                        <td width="130">Sumber Pendanaan</td>
+                        <td class="text_kiri"  width="130">Sumber Pendanaan</td>
                         <td width="10">:</td>
-                        <td>'.$sub_bl['nama_dana'].'</td>
+                        <td class="text_kiri" >'.$sub_bl['nama_dana'].'</td>
                     </tr>
                     <tr>
-                        <td width="130">Lokasi</td>
+                        <td class="text_kiri"  width="130">Lokasi</td>
                         <td width="10">:</td>
-                        <td>'.$sub_bl['nama_lokasi'].'</td>
+                        <td class="text_kiri" >'.$sub_bl['nama_lokasi'].'</td>
                     </tr>
                     <tr>
-                        <td width="130">Waktu Pelaksanaan</td>
+                        <td class="text_kiri"  width="130">Waktu Pelaksanaan</td>
                         <td width="10">:</td>
-                        <td>'.$bulan[$sub_bl['waktu_awal']-1].' s.d. '.$bulan[$sub_bl['waktu_akhir']-1].'</td>
+                        <td class="text_kiri" >'.$bulan[$sub_bl['waktu_awal']-1].' s.d. '.$bulan[$sub_bl['waktu_akhir']-1].'</td>
                     </tr>
                     <tr valign="top">
-                        <td width="150">Keluaran Sub Kegiatan</td>
+                        <td class="text_kiri"  width="150">Keluaran Sub Kegiatan</td>
                         <td width="10">:</td>
-                        <td>
-                            <table width="100%" border="0" style="border-spacing: 0px;">
+                        <td style="padding: 0;">
+                            <table width="100%" class="no-border" style="border:none; border-spacing: 0px;">
                                 <tr>
                                 	<td>Indikator</td>
                                 	<td>Target</td>
@@ -262,7 +262,7 @@ foreach ($bl as $k => $sub_bl) {
 			$rin_sub_item .= '
 				<tr>
 	                <td class="kiri kanan bawah text_blok">'.$akun[$item['subs_bl_teks']]['kode_akun'].'</td>
-                    <td class="kanan bawah text_blok" colspan="5">'.$akun[$item['subs_bl_teks']]['nama_akun'].'</td>
+                    <td class="kanan bawah text_kiri text_blok" colspan="5">'.$akun[$item['subs_bl_teks']]['nama_akun'].'</td>
                     <td class="kanan bawah text_kanan text_blok" style="white-space:nowrap">Rp. '.number_format($akun[$item['subs_bl_teks']]['total'],2,",",".").'</td>
                 </tr>
 			';
@@ -272,7 +272,7 @@ foreach ($bl as $k => $sub_bl) {
 			$rin_sub_item .= '
 				<tr>
 	                <td class="kiri kanan bawah text_blok">'.$akun[$item['subs_bl_teks']][$item['ket_bl_teks']]['kode_akun'].'</td>
-                    <td class="kanan bawah text_blok" colspan="5">'.$akun[$item['subs_bl_teks']][$item['ket_bl_teks']]['nama_akun'].'</td>
+                    <td class="kanan bawah text_kiri text_blok" colspan="5">'.$akun[$item['subs_bl_teks']][$item['ket_bl_teks']]['nama_akun'].'</td>
                     <td class="kanan bawah text_kanan text_blok" style="white-space:nowrap">Rp. '.number_format($akun[$item['subs_bl_teks']][$item['ket_bl_teks']]['total'],2,",",".").'</td>
                 </tr>
 			';
@@ -323,8 +323,8 @@ foreach ($bl as $k => $sub_bl) {
 			$akun[$item['subs_bl_teks']][$item['ket_bl_teks']][$akun_1_db[0]['kode_akun']][$akun_2_db[0]['kode_akun']][$akun_3_db[0]['kode_akun']][$akun_4_db[0]['kode_akun']][$item['nama_akun']]['status'] = 1;
 			$rin_sub_item .= '
 				<tr>
-	                <td class="kiri kanan bawah text_blok">'.$akun[$item['subs_bl_teks']][$item['ket_bl_teks']][$akun_1_db[0]['kode_akun']][$akun_2_db[0]['kode_akun']][$akun_3_db[0]['kode_akun']][$akun_4_db[0]['kode_akun']][$item['nama_akun']]['kode_akun'].'</td>
-                    <td class="kanan bawah text_blok" colspan="5">'.$akun[$item['subs_bl_teks']][$item['ket_bl_teks']][$akun_1_db[0]['kode_akun']][$akun_2_db[0]['kode_akun']][$akun_3_db[0]['kode_akun']][$akun_4_db[0]['kode_akun']][$item['nama_akun']]['nama_akun'].'</td>
+	                <td class="kiri kanan bawah text_kiri text_blok">'.$akun[$item['subs_bl_teks']][$item['ket_bl_teks']][$akun_1_db[0]['kode_akun']][$akun_2_db[0]['kode_akun']][$akun_3_db[0]['kode_akun']][$akun_4_db[0]['kode_akun']][$item['nama_akun']]['kode_akun'].'</td>
+                    <td class="kanan bawah text_kiri text_blok" colspan="5">'.$akun[$item['subs_bl_teks']][$item['ket_bl_teks']][$akun_1_db[0]['kode_akun']][$akun_2_db[0]['kode_akun']][$akun_3_db[0]['kode_akun']][$akun_4_db[0]['kode_akun']][$item['nama_akun']]['nama_akun'].'</td>
                     <td class="kanan bawah text_kanan text_blok" style="white-space:nowrap">Rp. '.number_format($akun[$item['subs_bl_teks']][$item['ket_bl_teks']][$akun_1_db[0]['kode_akun']][$akun_2_db[0]['kode_akun']][$akun_3_db[0]['kode_akun']][$akun_4_db[0]['kode_akun']][$item['nama_akun']]['total'],2,",",".").'</td>
                 </tr>
 			';
@@ -332,7 +332,7 @@ foreach ($bl as $k => $sub_bl) {
 		$rin_sub_item .= '
 			<tr>
 				<td class="kiri kanan bawah text_blok">&nbsp;</td>
-                <td class="kanan bawah">
+                <td class="kanan bawah text_kiri">
                     <div>'.$item['nama_komponen'].'</div>
                     <div style="margin-left: 20px">'.$item['spek_komponen'].'</div>
                 </td>
@@ -378,13 +378,15 @@ foreach ($bl as $k => $sub_bl) {
 		padding: 0;
 	}
 	td, th {
-		text-align: inherit;
+		border:none; 
+		text-align: left;
 		padding: inherit;
 		display: table-cell;
     	vertical-align: inherit;
 	}
 	table, td, th {
-		border: 0; 
+		text-align: left;
+		border:none; 
 	}
 	body {
 		display: block;
@@ -392,11 +394,14 @@ foreach ($bl as $k => $sub_bl) {
 	    font-family: 'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 	    padding: 0;
 	    font-size: 13px;
+		text-align: left;
 	}
 	table {
+		border:none; 
 	    display: table;
 	    border-collapse: separate;
 	    margin: 0;
+		text-align: left;
 	}
     .cetak{
         font-family:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -416,6 +421,9 @@ foreach ($bl as $k => $sub_bl) {
     .atas{        
         border-top:1px solid #000;
     }
+	.no-border{
+		border:none;
+	}
     .text_tengah{
         text-align: center;
     }
@@ -467,38 +475,38 @@ foreach ($bl as $k => $sub_bl) {
 	        </td>
 	    </tr>
 	    <tr>
-	        <td colspan="2">
+	        <td colspan="2" class="text_kiri">
 	            <table width="100%" class="cellpadding_2" style="border-spacing: 1px;">
 	                <tr>
-	                    <td width="150">Urusan Pemerintahan</td>
+	                    <td width="150" class="text_kiri">Urusan Pemerintahan</td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri"><?php echo $bl[0]['kode_urusan']; ?> <?php echo $bl[0]['nama_urusan']; ?></td>
 	                </tr>
 	                <tr>
-	                    <td width="150">Bidang Urusan</td>
+	                    <td width="150" class="text_kiri">Bidang Urusan</td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri"><?php echo $bl[0]['kode_bidang_urusan']; ?> <?php echo $bl[0]['nama_bidang_urusan']; ?></td>
 	                </tr>
 	                <tr>
-	                    <td width="150">Program</td>
+	                    <td width="150" class="text_kiri">Program</td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri"><?php echo $bl[0]['kode_program']; ?> <?php echo $bl[0]['nama_program']; ?></td>
 	                </tr>
 	                <tr>
-	                    <td width="150">Sasaran Program</td>
+	                    <td width="150" class="text_kiri">Sasaran Program</td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri"><?php echo $bl[0]['sasaran']; ?></td>
 	                </tr>
 	                <tr valign="top" class="no_padding">
-	                    <td width="150">Capaian Program</td>
+	                    <td class="text_kiri" width="150">Capaian Program</td>
 	                    <td width="10">:</td>
-	                    <td>
-	                        <table width="100%" border="0" style="border-spacing: 0px;">
+	                    <td class="no-border">
+	                        <table width="100%" style="border: none; border-spacing: 0px;">
 	                            <tr>
 	                            	<td>Indikator</td>
 	                            	<td>Target</td>
 	                            </tr>
-								<tr>
+								<tr height="28">
 	                                <td width="495"></td>
 	                                <td width="495"></td>
 	                            </tr>
@@ -506,32 +514,32 @@ foreach ($bl as $k => $sub_bl) {
 	                </td>
 	                </tr>
 	                <tr>
-	                    <td width="150">Kegiatan</td>
+	                    <td class="text_kiri" width="150">Kegiatan</td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri"><?php echo $bl[0]['kode_giat']; ?> <?php echo $bl[0]['nama_giat']; ?></td>
 	                </tr>
 	                <tr>
-	                    <td width="150">Organisasi</td>
+	                    <td class="text_kiri" width="150">Organisasi</td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri"><?php echo $bl[0]['kode_skpd']; ?>&nbsp;<?php echo $bl[0]['nama_skpd']; ?></td>
 	                </tr>
 	                <tr>
-	                    <td width="150">Unit</td>
+	                    <td class="text_kiri" width="150">Unit</td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri"><?php echo $bl[0]['kode_sub_skpd']; ?>&nbsp;<?php echo $bl[0]['nama_sub_skpd']; ?></td>
 	                </tr>
 	                <tr>
-	                    <td width="150">Alokasi Tahun <?php echo $tahun_anggaran-1; ?></td>
+	                    <td class="text_kiri" width="150">Alokasi Tahun <?php echo $tahun_anggaran-1; ?></td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri">Rp. <?php echo number_format($pagu_n_lalu,2,",","."); ?></td>
 	                </tr>
 	                <tr>
-	                    <td width="150">Alokasi Tahun <?php echo $tahun_anggaran; ?></td>
+	                    <td class="text_kiri" width="150">Alokasi Tahun <?php echo $tahun_anggaran; ?></td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri">Rp. <?php echo number_format($pagu,2,",","."); ?></td>
 	                </tr>
 	                <tr>
-	                    <td width="150">Alokasi Tahun <?php echo $tahun_anggaran+1; ?></td>
+	                    <td class="text_kiri" width="150">Alokasi Tahun <?php echo $tahun_anggaran+1; ?></td>
 	                    <td width="10">:</td>
 	                    <td class="text_kiri">Rp. <?php echo number_format($pagu_n_depan,2,",","."); ?></td>
 	                </tr>
@@ -545,70 +553,70 @@ foreach ($bl as $k => $sub_bl) {
 	        <td class="kiri kanan atas bawah" colspan="2">                
 	            <table width="100%" class="cellpadding_5" style="border-spacing: 2px;">
 	                <tr>
-	                    <td width="130" class="text_tengah kiri atas kanan bawah">Indikator</td>
+	                    <td width="130" class="text_kiri kiri atas kanan bawah">Indikator</td>
 	                    <td class="text_tengah kiri atas kanan bawah">Tolok Ukur Kinerja</td>
 	                    <td width="123" class="text_tengah kiri atas kanan bawah">Target Kinerja</td>
 	                </tr>
 	                                    
 	                <tr>
-	                    <td width="130" class="kiri kanan atas bawah">Capaian Kegiatan</td>
+	                    <td width="130" class="text_kiri kiri kanan atas bawah">Capaian Kegiatan</td>
 	                    <td class="kiri kanan atas bawah">
-		                    <table width="100%" border="0" style="border-spacing: 0px;">
+		                    <table width="100%" height="28" style="border: none; border-spacing: 0px;">
 		                        <tr>
-		                        	<td width="495"></td>
+		                        	<td width="495" class="no-border"></td>
 		                        </tr>
 		                    </table>
 		                </td>
 		                <td class="kiri kanan atas bawah">
-		                    <table width="100%" border="0" style="border-spacing: 0px;">
+		                    <table width="100%" height="28" style="border: none; border-spacing: 0px;">
 		                        <tr>
-		                        	<td width="495"></td>
+		                        	<td width="495" class="no-border"></td>
 		                        </tr>
 		                    </table>
 		                </td>
 	                </tr>
 	                <tr class="no_padding">
-	                    <td width="130" class="kiri kanan atas bawah">Masukan</td>
+	                    <td width="130" class="text_kiri kiri kanan atas bawah"> Masukan</td>
 	                    <td class="kiri kanan atas bawah">
-	                        <table width="100%" border="0" style="border-spacing: 0px;">
+	                        <table width="100%" class="no-border" style="border-spacing: 0px;">
 		                        <tr>
-		                          <td width="495">Dana yang dibutuhkan</td>
+		                          <td class="no-border" width="495">Dana yang dibutuhkan</td>
 		                        </tr>
 	                        </table>
 	                    </td>
 	                    <td class="kiri kanan atas bawah">
-	                        <table width="100%" border="0" style="border-spacing: 0px;">
+	                        <table width="100%" class="no-border" style="border-spacing: 0px;">
 		                        <tr>
-		                          <td width="495">Rp. <?php echo number_format($total_pagu,2,",","."); ?></td>
+		                          <td class="no-border" width="495">Rp. <?php echo number_format($total_pagu,2,",","."); ?></td>
 		                        </tr>
 	                        </table>
 	                    </td>
 	                </tr>
 	                <tr>
-	                    <td width="130" class="kiri kanan atas bawah">Keluaran</td>
+	                    <td width="130" class="text_kiri kiri kanan atas bawah">Keluaran</td>
 	                    <td class="kiri kanan atas bawah">
-	                        <table width="100%" border="0" style="border-spacing: 0px;">
+	                        <table width="100%" class="no-border" style="border-spacing: 0px;">
 	                            <tr>
-	                          		<td width="495"></td>
+	                          		<td class="no-border" width="495"></td>
                         		</tr>
 	                    	</table>
 	                    </td>
 	                    <td class="kiri kanan atas bawah">
-	                        <table width="100%" border="0" style="border-spacing: 0px;">
+	                        <table width="100%" class="no-border" style="border-spacing: 0px;">
 	                            <tr>
-	                          		<td width="495"></td>
+	                          		<td class="no-border" width="495"></td>
 	                        	</tr>
 	                        </table>
 	                    </td>
 	                </tr>
 	                <tr>
-	                    <td width="130" class="kiri kanan atas bawah">Hasil</td>
+	                    <td width="130" class="text_kiri kiri kanan atas bawah">Hasil</td>
 	                    <td class="kiri kanan atas bawah">
-	                        <table width="100%" border="0" style="border-spacing: 0px;">
+	                        <table width="100%" class="no-border" style="border-spacing: 0px;">
 	                        </table>
 	                    </td>
 	                    <td class="kiri kanan atas bawah">
-	                        <table width="100%" border="0" style="border-spacing: 0px;">
+	                        <table width="100%" class="no-border" style="border-spacing: 0px;">
 	                        </table>
 	                    </td>
 	                </tr>
@@ -646,36 +654,31 @@ foreach ($bl as $k => $sub_bl) {
 			</td>
 	    </tr>
 	    <tr>
-	        <td class="kiri kanan atas bawah" width="350" valign="top">
-	            <table width="100%" class="cellpadding_2" style="border-spacing: 0px;">
-					<td class="kiri kanan atas bawah" width="100%" rowspan="5" valign="top">
-						&nbsp;
-					</td>
-				</table>
+	        <td style="border:none;" width="350" valign="top">
 	        </td>
-	        <td class="kiri kanan atas bawah" width="250" valign="top">
-	            <table width="100%" class="cellpadding_2" style="border-spacing: 0px;">
-	                <tr><td colspan="3" class="text_tengah"><?php echo NAMADAERAH .", ". TANGGAL; ?></td></tr>
-					<tr><td colspan="3" class="text_tengah text_15"><?php 
-					  if (strpos($unit[0]['namaunit'], "Kecamatan") !== false) {
-						echo str_replace("Kecamatan","Camat",$unit[0]['namaunit']);
+	        <td style="border:none;" width="250" valign="top">
+	            <table width="100%" style="border:none;" class="cellpadding_2" style="border-spacing: 0px;">
+	                <tr><td colspan="3" style="border:none;" class="text_tengah"><?php echo NAMADAERAH .", ". TANGGAL; ?></td></tr>
+					<tr><td colspan="3" style="border:none;" class="text_tengah"><?php 
+					  if (strpos($unit[0]['nama_skpd'], "Kecamatan") !== false) {
+						echo str_replace("Kecamatan","Camat",$unit[0]['nama_skpd']);
 					  } else {
-					    if (strpos($unit[0]['namaunit'], "Inspektorat") !== false) {
+					    if (strpos($unit[0]['nama_skpd'], "Inspektorat") !== false) {
 						  echo "Inspektur " . DAERAH ." ". NAMADAERAH;
 						} else {
-					      if (strpos($unit[0]['namaunit'], "Rumah Sakit") !== false) {
-							echo "Direktur " . $unit[0]['namaunit']; 
+					      if (strpos($unit[0]['nama_skpd'], "Rumah Sakit") !== false) {
+							echo "Direktur " . $unit[0]['nama_skpd']; 
 						  } else {
-							if (strpos($unit[0]['namaunit'], "Sekretariat") !== false) {
-							  echo str_replace("Sekretariat","Sekretaris", $unit[0]['namaunit']) ." ". DAERAH ." ". NAMADAERAH ;
-							} else { echo "Kepala " . $unit[0]['namaunit']; }
+							if (strpos($unit[0]['nama_skpd'], "Sekretariat") !== false) {
+							  echo str_replace("Sekretariat","Sekretaris", $unit[0]['nama_skpd']) ." ". DAERAH ." ". NAMADAERAH ;
+							} else { echo "Kepala " . $unit[0]['nama_skpd']; }
 						  }
 						}
 					  }  
 					?></td></tr>
-	                <tr><td colspan="3" height="80">&nbsp;</td></tr>
-	                <tr><td colspan="3" class="text_tengah"><?php echo $unit[0]['namakepala']; ?></td></tr>
-	                <tr><td colspan="3" class="text_tengah"><?php echo $unit[0]['nipkepala']; ?></td></tr>
+	                <tr><td colspan="3" style="border:none;" height="80">&nbsp;</td></tr>
+	                <tr><td colspan="3" style="border:none;" class="text_tengah"><?php echo $unit[0]['namakepala']; ?></td></tr>
+	                <tr><td colspan="3" style="border:none;" class="text_tengah">NIP. <?php echo $unit[0]['nipkepala']; ?></td></tr>
 				</table>
 	        </td>
 	    </tr>

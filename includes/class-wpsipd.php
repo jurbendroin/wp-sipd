@@ -197,6 +197,9 @@ class Wpsipd
 		$this->loader->add_action('wp_ajax_singkron_data_giat',  $plugin_public, 'singkron_data_giat');
 		$this->loader->add_action('wp_ajax_nopriv_singkron_data_giat',  $plugin_public, 'singkron_data_giat');
 
+		$this->loader->add_action('wp_ajax_singkron_data_usulan',  $plugin_public, 'singkron_data_usulan');
+		$this->loader->add_action('wp_ajax_nopriv_singkron_data_usulan',  $plugin_public, 'singkron_data_usulan');
+
 		$this->loader->add_action('wp_ajax_singkron_sumber_dana',  $plugin_public, 'singkron_sumber_dana');
 		$this->loader->add_action('wp_ajax_nopriv_singkron_sumber_dana',  $plugin_public, 'singkron_sumber_dana');
 

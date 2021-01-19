@@ -2,30 +2,72 @@
 global $wpdb;
 
 $rekap = $wpdb->get_results("
-	SELECT c.kodeunit, c.namaunit, SUM(a.rincian) AS total FROM data_rka a 
-	LEFT JOIN data_sub_keg_bl b ON a.kode_sbl = b.kode_sbl 
-	LEFT JOIN data_unit c ON b.id_sub_skpd = c.id_skpd 
-	WHERE a.active = 1 GROUP BY c.id_unit
-	ORDER BY `c`.`kodeunit` ASC"
+	SELECT d.kode_skpd, d.nama_skpd, e.batasanpagu, e.nilaipagu, e.nilairincian, SUM(a.rincian) AS total FROM (SELECT * FROM data_rka WHERE tahun_anggaran = 2021) a 
+	LEFT JOIN (SELECT * FROM data_sub_keg_bl WHERE tahun_anggaran = 2021) b ON a.kode_sbl = b.kode_sbl 
+	LEFT JOIN (SELECT * FROM data_unit WHERE tahun_anggaran = 2021) c ON b.id_sub_skpd = c.id_skpd 
+	LEFT JOIN (SELECT * FROM data_unit WHERE tahun_anggaran = 2021) d ON c.id_unit = d.id_skpd
+	LEFT JOIN (SELECT * FROM data_unit_pagu WHERE tahun_anggaran = 2021) e ON e.id_skpd = d.id_skpd
+	WHERE a.active = 1 GROUP BY d.id_skpd
+	ORDER BY `d`.`kode_skpd` ASC"
 , ARRAY_A);
 
 $tbody = "
 	<tr>
-		<th class=\"atas kanan bawah kiri text_tengah\" colspan=\"3\">REKAPITULASI RINCIAN PER UNIT</td>
-	</tr>        
+		<th class=\"atas kanan bawah kiri text_tengah\" colspan=\"9\">REKAPITULASI RINCIAN PER UNIT</td>
+	</tr>
+	<tr>
+		<td colspan=\"9\">
+<table>        
+<THEAD>
 	<tr>
 		<th width=\"180\" class=\"text_tengah kiri atas kanan bawah\">KODE UNIT</td>
-		<th class=\"text_tengah kiri atas kanan bawah\">NAMA UNIT</td>
-		<th width=\"200\" class=\"text_tengah kiri atas kanan bawah\">RINCIAN</td>
-	</tr>";
+		<th width=\"400\" class=\"text_tengah kiri atas kanan bawah\">NAMA UNIT</td>
+		<th width=\"200\" class=\"text_tengah kiri atas kanan bawah\">BATASAN PAGU</td>
+		<th width=\"200\" class=\"text_tengah kiri atas kanan bawah\">PAGU VALIDASI</td>
+		<th width=\"200\" class=\"text_tengah kiri atas kanan bawah\">NILAI RINCIAN</td>
+		<th width=\"200\" class=\"text_tengah kiri atas kanan bawah\">IMPOR RINCIAN</td>
+		<th width=\"200\" class=\"text_tengah kiri atas kanan bawah\">KURANG RINCIAN</td>
+		<th width=\"200\" class=\"text_tengah kiri atas kanan bawah\">KURANG IMPOR</td>
+		<th width=\"200\" class=\"text_tengah kiri atas kanan bawah\">SUDAH VALIDASI</td>
+	</tr>
+</THEAD>";
+$batasanpagu = 0;
+$nilaipagu = 0;
+$nilairincian = 0;
+$total = 0;
 foreach ($rekap as $baris => $unit) {
+	$batasanpagu += $unit['batasanpagu'];
+	$nilaipagu += $unit['nilaipagu'];
+	$nilairincian += $unit['nilairincian'];
+	$total += $unit['total'];
 	$tbody .= "
 	<tr>
-		<td width=\"180\" class=\"text_tengah kiri atas kanan bawah\">".$unit['kodeunit']."</td>
-		<td class=\"text_kiri kiri atas kanan bawah\">".$unit['namaunit']."</td>
+		<td width=\"180\" class=\"text_tengah kiri atas kanan bawah\">".$unit['kode_skpd']."</td>
+		<td width=\"400\" class=\"text_kiri kiri atas kanan bawah\">".$unit['nama_skpd']."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($unit['batasanpagu'],2,',','.')."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($unit['nilaipagu'],2,',','.')."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($unit['nilairincian'],2,',','.')."</td>
 		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($unit['total'],2,',','.')."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($unit['nilairincian']-$unit['batasanpagu'],2,',','.')."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($unit['total']-$unit['nilairincian'],2,',','.')."</td>
+		<td width=\"180\" class=\"text_tengah kiri atas kanan bawah\">".(boolval($unit['nilaipagu']==$unit['nilairincian']) ? 'Sudah' : '')."</td>
 	</tr>";
 }
+	$tbody .= "
+	<tr>
+		<td width=\"180\" class=\"text_tengah kiri atas kanan bawah\"></td>
+		<td width=\"400\" class=\"text_kiri kiri atas kanan bawah\">JUMLAH</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($batasanpagu,2,',','.')."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($nilaipagu,2,',','.')."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($nilairincian,2,',','.')."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($total,2,',','.')."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($nilairincian-$batasanpagu,2,',','.')."</td>
+		<td width=\"200\" class=\"text_kanan kiri atas kanan bawah\">".number_format($total-$nilairincian,2,',','.')."</td>
+		<td width=\"180\" class=\"text_tengah kiri atas kanan bawah\"> </td>
+	</tr>
+</table>
+</td>
+</tr>";
 ?>
 
 <style type="text/css">
