@@ -167,8 +167,10 @@ foreach ($bl as $k => $sub_bl) {
 	$sd_sub_keg = $wpdb->get_results($sql, ARRAY_A);
 	$sd_sub = array();
 	foreach ($sd_sub_keg as $key => $sd) {
-		$new_sd = explode(' - ', $sd['namadana']);
-		$sd_sub[] = $new_sd[1];
+		if ($sd['namadana']!=='') {
+			$new_sd = explode(' - ', $sd['namadana']);
+			$sd_sub[] = $new_sd[1];
+		}
 	}
 
 	$sql = "
