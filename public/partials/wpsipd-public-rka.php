@@ -18,6 +18,10 @@ $bl = $wpdb->get_results("
 		AND active=1"
 , ARRAY_A);
 
+$id_skpd = $bl[0]['id_sub_skpd'];
+if(empty($id_skpd)){
+	$id_skpd = $bl[0]['id_skpd'];
+}
 $unit = $wpdb->get_results("
 	SELECT 
 		* 
