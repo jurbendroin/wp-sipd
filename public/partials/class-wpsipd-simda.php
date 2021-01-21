@@ -1452,7 +1452,7 @@ class Wpsipd_Simda
 			$ret['message'] = 'Format Salah!';
 		}
 		if(!empty($opsi['return'])){
-			die(json_encode($ret));
+			return json_encode($ret);
 		}
 	}
 

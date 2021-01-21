@@ -1237,13 +1237,13 @@ class Wpsipd_Public
 						wp_set_post_terms($custom_post->ID, array($cat_id), $taxonomy, $append);
 						$category_link = get_category_link($cat_id);
 
-						$ret['message'] .= ' URL ' . $custom_post->guid;
+						$ret['message'] .= "\n" . 'URL ' . $custom_post->guid;
 						$ret['category'] = $category_link;
 
 						wp_set_post_terms($custom_post_1->ID, array($cat_id), $taxonomy, $append);
 						$category_link = get_category_link($cat_id);
 
-						$ret['message'] .= ' URL ' . $custom_post_1->guid;
+						$ret['message'] .= "\n" . 'URL ' . $custom_post_1->guid;
 						$ret['category'] = $category_link;
 					}
 				} else if ($ret['status'] != 'error') {
@@ -1490,10 +1490,13 @@ class Wpsipd_Public
 				}
 
 				if(carbon_get_theme_option('crb_singkron_simda') == 1){
-					$this->simda->singkronSimda(array(
-						'return' => false
+					$retsimda = $this->simda->singkronSimda(array(
+						'return' => true
 					));
-				}
+					$retsimda = json_decode($retsimda,true);
+					$ret['simda_status'] = $retsimda['simda_status'];
+					$ret['simda_msg'] = $retsimda['simda_msg'];
+				} else {$ret['simda_msg'] = 'Tidak Disetting Otomatis Singkron ke Simda';}
 			} else {
 				$ret['status'] = 'error';
 				$ret['message'] = 'APIKEY tidak sesuai!';
