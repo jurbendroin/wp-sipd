@@ -1052,8 +1052,8 @@ CREATE TABLE `data_user_penatausahaan` (
 DROP TABLE IF EXISTS `data_usulan`;
 CREATE TABLE `data_usulan` (
   `id` int NOT NULL,
-  `alamat_teks` varchar(512) DEFAULT NULL,
-  `alamatteks` varchar(250) NOT NULL,
+  `alamat_teks` text DEFAULT NULL,
+  `alamatteks` text NOT NULL,
   `camatteks` varchar(50) DEFAULT NULL,
   `lurahteks` varchar(50) DEFAULT NULL,
   `langpeta` double DEFAULT NULL,
@@ -1102,7 +1102,7 @@ CREATE TABLE `data_usulan` (
   `kodeskpd` varchar(50) DEFAULT NULL,
   `koefisien` varchar(150) DEFAULT NULL,
   `lokus_usulan` varchar(250) DEFAULT NULL,
-  `masalah` varchar(512) DEFAULT NULL,
+  `masalah` text DEFAULT NULL,
   `nama_daerah` varchar(50) DEFAULT NULL,
   `namakabkota` varchar(50) DEFAULT NULL,
   `nama_skpd` varchar(150) DEFAULT NULL,

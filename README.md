@@ -10,6 +10,7 @@ Cara pakai plugin:
 - Install wordpress
 - Install plugin ini dan aktifkan
 - Import SQL file tabel.sql untuk membuat tabel tempat menyimpan data yang diambil dari sipd.kemendagri.go.id
+  (Note: tabel.sql versi jurbendroin menghapus tabel-tabel lama dan membuat tabel-tabel kosong baru.)
 - Masuk ke dashboard admin wordpress
 	- SIPD Options > API KEY chrome extension
 	- Secara default data apikey sudah terisi, bisa diedit sesuai keperluan
