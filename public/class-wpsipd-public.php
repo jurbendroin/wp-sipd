@@ -1494,9 +1494,9 @@ class Wpsipd_Public
 						'return' => true
 					));
 					$retsimda = json_decode($retsimda,true);
-					$ret['simda_status'] = $retsimda['simda_status'];
-					$ret['simda_msg'] = $retsimda['simda_msg'];
-				} else {$ret['simda_msg'] = 'Tidak Disetting Otomatis Singkron ke Simda';}
+					if (isset($retsimda['simda_status'])) $ret['simda_status'] = $retsimda['simda_status'];
+					if (isset($retsimda['simda_msg'])) $ret['simda_msg'] = $retsimda['simda_msg'];
+				} else {$ret['message'] .= ' Tidak Disetting Otomatis Singkron ke Simda';}
 			} else {
 				$ret['status'] = 'error';
 				$ret['message'] = 'APIKEY tidak sesuai!';

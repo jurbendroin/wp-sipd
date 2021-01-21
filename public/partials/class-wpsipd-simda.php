@@ -245,7 +245,7 @@ class Wpsipd_Simda
 			$ret['message'] = 'Format Salah!';
 		}
 		if(!empty($opsi['return'])){
-			die(json_encode($ret));
+			return json_encode($ret);
 		}
 	}
 
@@ -465,7 +465,7 @@ class Wpsipd_Simda
 			$ret['message'] = 'Format Salah!';
 		}
 		if(!empty($opsi['return'])){
-			die(json_encode($ret));
+			return json_encode($ret);
 		}
 	}
 
@@ -565,7 +565,7 @@ class Wpsipd_Simda
 			$ret['message'] = 'Format Salah!';
 		}
 		if(!empty($opsi['return'])){
-			die(json_encode($ret));
+			return json_encode($ret);
 		}
 	}
 
@@ -797,7 +797,7 @@ class Wpsipd_Simda
 			$ret['message'] = 'Format Salah!';
 		}
 		if(!empty($opsi['return'])){
-			die(json_encode($ret));
+			return json_encode($ret);
 		}
 	}
 
@@ -1494,11 +1494,11 @@ class Wpsipd_Simda
         	if($debug){
             	print_r($response); die();
         	}
-            $ret = json_decode($response);
+            $ret = json_decode($response,true);
             if(!empty($ret->error)){
                 echo "<pre>".print_r($ret, 1)."</pre>"; die();
             }else{
-                return $ret->msg;
+                if(isset($ret->msg)) die ($ret->msg);
             }
         }
     }
