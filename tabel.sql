@@ -732,10 +732,17 @@ CREATE TABLE `data_ssh` (
   `nama_standar_harga` text NOT NULL,
   `satuan` text NOT NULL,
   `spek` text NOT NULL,
+  `ket_teks` text NOT NULL,
+  `created_at` VARCHAR(25) NOT NULL,
+  `created_user` int DEFAULT NULL,
+  `updated_at` VARCHAR(25) NOT NULL,
+  `updated_user` int DEFAULT NULL,
   `is_deleted` tinyint NOT NULL,
   `is_locked` tinyint NOT NULL,
   `kelompok` tinyint NOT NULL,
   `harga` double(20,0) NOT NULL,
+  `harga_2` DOUBLE(20,0) NOT NULL,
+  `harga_3` DOUBLE(20,0) NOT NULL,
   `kode_kel_standar_harga` varchar(30) NOT NULL,
   `nama_kel_standar_harga` text NOT NULL,
   `update_at` datetime NOT NULL,
@@ -1212,7 +1219,7 @@ CREATE TABLE `vw_batuan_hibah_uang` (
 --
 DROP TABLE IF EXISTS `vw_batuan_hibah_uang`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`maswie`@`localhost` SQL SECURITY DEFINER VIEW `vw_batuan_hibah_uang`  AS  select `a`.`kode_akun` AS `kode_akun`,`a`.`nama_akun` AS `nama_akun`,`r`.`subs_bl_teks` AS `subs_bl_teks`,`r`.`ket_bl_teks` AS `ket_bl_teks`,`r`.`lokus_akun_teks` AS `lokus_akun_teks`,`r`.`nama_komponen` AS `nama_komponen`,`r`.`koefisien` AS `koefisien`,`r`.`satuan` AS `satuan`,`r`.`harga_satuan` AS `harga_satuan`,`r`.`rincian` AS `rincian`,`r`.`kode_sbl` AS `kode_sbl`,`r`.`update_at` AS `update_at`,`r`.`tahun_anggaran` AS `tahun_anggaran`,`al`.`nama` AS `deskel`,(select `data_alamat`.`nama` from `data_alamat` where (`data_alamat`.`id_alamat` = `al`.`id_kec`)) AS `kecamatan`,(select `data_alamat`.`nama` from `data_alamat` where (`data_alamat`.`id_alamat` = `al`.`id_kab`)) AS `kabupaten`,(select `data_alamat`.`nama` from `data_alamat` where (`data_alamat`.`id_alamat` = `al`.`id_prov`)) AS `provinsi`,`p`.`nama_teks` AS `nama_penerima`,`p`.`alamat_teks` AS `alamat_penerima`,`p`.`jenis_penerima` AS `jenis_penerima` from (((`data_akun` `a` join `data_rka` `r` on((`a`.`kode_akun` = `r`.`kode_akun`))) left join `data_alamat` `al` on((`r`.`id_lurah_penerima` = `al`.`id_alamat`))) left join `data_profile_penerima_bantuan` `p` on((`r`.`id_penerima` = `p`.`id_profil`))) where (`a`.`is_hibah_uang` = 1) ;
+CREATE VIEW `vw_batuan_hibah_uang`  AS  select `a`.`kode_akun` AS `kode_akun`,`a`.`nama_akun` AS `nama_akun`,`r`.`subs_bl_teks` AS `subs_bl_teks`,`r`.`ket_bl_teks` AS `ket_bl_teks`,`r`.`lokus_akun_teks` AS `lokus_akun_teks`,`r`.`nama_komponen` AS `nama_komponen`,`r`.`koefisien` AS `koefisien`,`r`.`satuan` AS `satuan`,`r`.`harga_satuan` AS `harga_satuan`,`r`.`rincian` AS `rincian`,`r`.`kode_sbl` AS `kode_sbl`,`r`.`update_at` AS `update_at`,`r`.`tahun_anggaran` AS `tahun_anggaran`,`al`.`nama` AS `deskel`,(select `data_alamat`.`nama` from `data_alamat` where (`data_alamat`.`id_alamat` = `al`.`id_kec`)) AS `kecamatan`,(select `data_alamat`.`nama` from `data_alamat` where (`data_alamat`.`id_alamat` = `al`.`id_kab`)) AS `kabupaten`,(select `data_alamat`.`nama` from `data_alamat` where (`data_alamat`.`id_alamat` = `al`.`id_prov`)) AS `provinsi`,`p`.`nama_teks` AS `nama_penerima`,`p`.`alamat_teks` AS `alamat_penerima`,`p`.`jenis_penerima` AS `jenis_penerima` from (((`data_akun` `a` join `data_rka` `r` on((`a`.`kode_akun` = `r`.`kode_akun`))) left join `data_alamat` `al` on((`r`.`id_lurah_penerima` = `al`.`id_alamat`))) left join `data_profile_penerima_bantuan` `p` on((`r`.`id_penerima` = `p`.`id_profil`))) where (`a`.`is_hibah_uang` = 1) ;
 
 --
 -- Indexes for dumped tables

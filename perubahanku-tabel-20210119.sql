@@ -33,7 +33,14 @@ ALTER TABLE `data_prog_keg` ADD `id_giat` INT NOT NULL AFTER `id_sub_giat`;
 
 ALTER TABLE `data_dana_sub_keg` ADD `pagudana` double(20, 0) DEFAULT NULL AFTER `iddanasubbl`;
 
-
+ALTER TABLE `data_ssh` 
+ADD `harga_2` DOUBLE(20,0) NOT NULL AFTER `harga`, 
+ADD `harga_3` DOUBLE(20,0) NOT NULL AFTER `harga_2`, 
+ADD `ket_teks` text NOT NULL AFTER `spek`, 
+ADD `created_at` VARCHAR(25) NOT NULL AFTER `ket_teks`, 
+ADD `created_user` int DEFAULT NULL AFTER `created_at`, 
+ADD `updated_at` VARCHAR(25) NOT NULL AFTER `created_user`, 
+ADD `updated_user` int DEFAULT NULL AFTER `updated_at`;
 --
 -- Table structure for table `data_keg_indikator_hasil`
 --

@@ -131,6 +131,8 @@ class Wpsipd_Public
 							'update_at'	=> current_time('mysql'),
 							'tahun_anggaran'	=> $_POST['tahun_anggaran']
 						);
+						unset($opsi['action']);
+						unset($opsi['kd_belanja']);
 						if (!empty($cek)) {
 							$wpdb->update('data_ssh', $opsi, array(
 								'tahun_anggaran'	=> $_POST['tahun_anggaran'],
@@ -282,7 +284,7 @@ class Wpsipd_Public
 					);
 					if (!empty($cek)) {
 						$wpdb->update('data_desa_kelurahan', $opsi, array(
-							'id_lurah' => $v['id_lurah'],
+							'id_lurah' => $data['id_lurah'],
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						));
 					} else {
@@ -322,7 +324,7 @@ class Wpsipd_Public
 					);
 					if (!empty($cek)) {
 						$wpdb->update('data_dewan', $opsi, array(
-							'iduser' => $v['iduser'],
+							'iduser' => $data['iduser'],
 							'tahun_anggaran' => $_POST['tahun_anggaran']
 						));
 					} else {
@@ -1219,7 +1221,8 @@ class Wpsipd_Public
 								'post_title'	=> $nama_page_1,
 								'post_content'	=> '[tampilrka_v1 kode_bl=' . $_POST['kode_bl'] . ']',
 								'post_type'		=> 'post',
-								'post_status'	=> 'publish'
+								'post_status'	=> 'private',
+								'comment_status'	=> 'closed'
 							));
 							$custom_post_1 = get_page_by_title($nama_page_1, OBJECT, 'post');
 							update_post_meta($custom_post_1->ID, 'ast-breadcrumbs-content', 'disabled');
