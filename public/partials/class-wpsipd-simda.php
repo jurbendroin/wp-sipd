@@ -600,6 +600,10 @@ class Wpsipd_Simda
 						}else{
 							$kd_unit_simda = explode('.', carbon_get_theme_option('crb_unit_'.$v['id_unit']));
 						}
+						if($type == 'belanja'){
+							$kd_unit_simda = explode('.', carbon_get_theme_option('crb_unit_'.$kode_sbl[1]));
+						}
+
 						if(empty($kd_unit_simda) || empty($kd_unit_simda[3])){
 							continue;
 						}
@@ -854,34 +858,34 @@ class Wpsipd_Simda
 							foreach ($sd_sub_keg as $key => $sd) {
 								if(!empty($sd['iddana'])){
 									$new_sd = explode(' - ', $sd['namadana']);
-									$cek_sd = $this->CurlSimda(array('query' => "select * from ref_sumber_dana where nm_sumber='".trim($new_sd[1])."'"));
+									$cek_sd = $this->CurlSimda(array('query' => "select * from ref_sumber_dana where kd_sumber=".$sd['iddana'].""));
 									if(empty($cek_sd)){
-										$cek_sd = $this->CurlSimda(array('query' => "select * from ref_sumber_dana where kd_sumber='".$sd['iddana']."'"));
-										if(!empty($cek_sd)){
+										$options = array('query' => "
+											INSERT INTO ref_sumber_dana (
+				                                kd_sumber,
+				                                nm_sumber
+				                            )
+				                            VALUES (
+												".$sd['iddana'].",
+												'".trim($new_sd[1])."'
+											)"
+										);
+										$this->CurlSimda($options);
+									}else{
+										if($cek_sd[0]->nm_sumber != trim($new_sd[1])){
 											$options = array('query' => "
 												UPDATE ref_sumber_dana 
 												set nm_sumber='".trim($new_sd[1])."'
-												where kd_sumber=".$sd['iddana']
+												where kd_sumber=".$sd['iddana'].""
 											);
-										}else{
-											$options = array('query' => "
-												INSERT INTO ref_sumber_dana (
-					                                kd_sumber,
-					                                nm_sumber
-					                            )
-					                            VALUES (
-													".$sd['iddana'].",
-													'".trim($new_sd[1])."'
-												)"
-											);
+											$this->CurlSimda($options);
 										}
-										$this->CurlSimda($options);
 									}
 									$id_sd[] = $sd['iddana'];
 								}
 							}
 							if(empty($id_sd)){
-								$sumber_dana = 'null';
+								$sumber_dana = 1;
 							}else{
 								$sumber_dana = $id_sd[0];
 							}
@@ -963,7 +967,7 @@ class Wpsipd_Simda
 				                                    ".$kd_sub_unit.",
 				                                    ".$kd_prog.",
 				                                    ".$id_prog.",
-				                                    '".$nama_prog."',
+				                                    '".substr($nama_prog, 0, 255)."',
 				                                    ".$kd_urusan.",
 				                                    ".$kd_bidang."
 				                                )"
@@ -992,13 +996,13 @@ class Wpsipd_Simda
 				                        $options = array(
 				                            'query' => "
 				                            UPDATE ta_kegiatan set
-				                                ket_kegiatan = '".$nama_keg."',
-				                                lokasi = '".implode(', ', $lokasi_sub)."',
+				                                ket_kegiatan = '".substr($nama_keg, 0, 255)."',
+				                                lokasi = '".substr(implode(', ', $lokasi_sub), 0, 800)."',
 				                                status_kegiatan = 1,
 				                                pagu_anggaran = ".$v['pagu'].",
 				                                kd_sumber = ".$sumber_dana.",
-				                                waktu_pelaksanaan = '".$waktu_pelaksanaan."',
-				                                kelompok_sasaran = '".$v['sasaran']."'
+				                                waktu_pelaksanaan = '".substr($waktu_pelaksanaan, 0, 100)."',
+				                                kelompok_sasaran = '".substr($v['sasaran'], 0, 255)."'
 				                            where 
 					                            tahun=".$tahun_anggaran."
 					                            and kd_urusan=".$_kd_urusan."
@@ -1038,12 +1042,12 @@ class Wpsipd_Simda
 				                                ".$kd_prog.",
 				                                ".$id_prog.",
 				                                ".$kd_keg.",
-				                                '".$nama_keg."',
-				                                '".implode(', ', $lokasi_sub)."',
-				                                '".$v['sasaran']."',
+				                                '".substr($nama_keg, 0, 255)."',
+				                                '".substr(implode(', ', $lokasi_sub), 0, 800)."',
+				                                '".substr($v['sasaran'], 0, 255)."',
 				                                1,
 				                                ".$v['pagu'].",
-				                                '".$waktu_pelaksanaan."',
+				                                '".substr($waktu_pelaksanaan, 0, 100)."',
 				                                ".$sumber_dana."
 				                            )"
 				                        );
@@ -1321,7 +1325,7 @@ class Wpsipd_Simda
 											                ".$mapping_rek[0]->kd_rek_4.",
 											                ".$mapping_rek[0]->kd_rek_5.",
 											                ".$no_rinc.",
-											                '".$kkk."',
+											                '".substr($kkk, 0, 255)."',
 											                ".$sumber_dana."
 											            )"
 									            );
@@ -1331,30 +1335,39 @@ class Wpsipd_Simda
 						                		$no_rinc_sub = 0;
 												foreach ($rkk as $kkkk => $rkkk) {
 													$no_rinc_sub++;
-													$jml_satuan = 1;
-													$jml_satuan_db = explode(' ', $rkkk['koefisien']);
-													if(!empty($jml_satuan_db)){
-														$jml_satuan = $jml_satuan_db[0];
-													}
 													$komponen = array($rkkk['nama_komponen'], $rkkk['spek_komponen']);
 													$nilai1 = 0;
+													$nilai1_t = 1;
 													if(!empty($rkkk['volum1'])){
 														$nilai1 = $rkkk['volum1'];
+														$nilai1_t = $rkkk['volum1'];
 													}else{
-														$nilai1 = $jml_satuan;
+														$jml_satuan_db = explode(' ', $rkkk['koefisien']);
+														if(!empty($jml_satuan_db) && $jml_satuan_db[0] >= 1){
+															$nilai1 = $jml_satuan_db[0];
+														}
 													}
 													$sat1 = $rkkk['satuan'];
 													if(!empty($rkkk['sat1'])){
 														$sat1 = $rkkk['sat1'];
 													}
 													$nilai2 = 0;
+													$nilai2_t = 1;
 													if(!empty($rkkk['volum2'])){
 														$nilai2 = $rkkk['volum2'];
+														$nilai2_t = $rkkk['volum2'];
 													}
 													$nilai3 = 0;
+													$nilai3_t = 1;
 													if(!empty($rkkk['volum3'])){
 														$nilai3 = $rkkk['volum3'];
+														$nilai3_t = $rkkk['volum3'];
 													}
+													$nilai4_t = 1;
+													if(!empty($rkkk['volum4'])){
+														$nilai4_t = $rkkk['volum4'];
+													}
+													$jml_satuan = $nilai1_t*$nilai2_t*$nilai3_t*$nilai4_t;
 													$options = array(
 										                'query' => "
 												            INSERT INTO ta_belanja_rinc_sub (
