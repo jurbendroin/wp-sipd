@@ -670,7 +670,7 @@ class Wpsipd_Public
 			'message'	=> 'Berhasil singkron data usulan musrenbang / masyarakat!'
 		);
 		if (!empty($_POST)) {
-			if (!empty($_POST['api_key']) && $_POST['api_key'] == APIKEY) {
+			if (!empty($_POST['api_key']) && $_POST['api_key'] == carbon_get_theme_option( 'crb_api_key_extension' )) {
 				if (!empty($_POST['data_usulan'])) {
 					$data_usulan = $_POST['data_usulan'];
 					foreach ($data_usulan as $k => $v) {
