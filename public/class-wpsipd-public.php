@@ -481,7 +481,11 @@ class Wpsipd_Public
 					}
 
 					if(carbon_get_theme_option('crb_singkron_simda') == 1){
-						$this->simda->singkronSimdaPendapatan(array('return' => false));
+						$debug = false;
+						if(carbon_get_theme_option('crb_singkron_simda') == 1){
+							$debug = true;
+						}
+						$this->simda->singkronSimdaPendapatan(array('return' => $debug));
 					}
 					// print_r($ssh); die();
 				} else {
@@ -549,7 +553,11 @@ class Wpsipd_Public
 					}
 
 					if(carbon_get_theme_option('crb_singkron_simda') == 1){
-						$this->simda->singkronSimdaPembiayaan(array('return' => false));
+						$debug = false;
+						if(carbon_get_theme_option('crb_singkron_simda') == 1){
+							$debug = true;
+						}
+						$this->simda->singkronSimdaPembiayaan(array('return' => $debug));
 					}
 					// print_r($ssh); die();
 				} else {
@@ -603,7 +611,11 @@ class Wpsipd_Public
 						$ret['request_data'][] = $opsi;
 					}
 					if(carbon_get_theme_option('crb_singkron_simda') == 1){
-						$this->simda->singkronSimdaUnit(array('return' => false));
+						$debug = false;
+						if(carbon_get_theme_option('crb_singkron_simda') == 1){
+							$debug = true;
+						}
+						$this->simda->singkronSimdaUnit(array('return' => $debug));
 					}
 				} else if ($ret['status'] != 'error') {
 					$ret['status'] = 'error';
@@ -1493,8 +1505,12 @@ class Wpsipd_Public
 				}
 
 				if(carbon_get_theme_option('crb_singkron_simda') == 1){
-					$retsimda = $this->simda->singkronSimda(array(
-						'return' => true
+					$debug = false;
+					if(carbon_get_theme_option('crb_singkron_simda') == 1){
+						$debug = true;
+					}
+					$this->simda->singkronSimda(array(
+						'return' => $debug
 					));
 					$retsimda = json_decode($retsimda,true);
 					if (isset($retsimda['simda_status'])) $ret['simda_status'] = $retsimda['simda_status'];
@@ -1949,8 +1965,12 @@ class Wpsipd_Public
 						}
 					}
 					if(carbon_get_theme_option('crb_singkron_simda') == 1){
+						$debug = false;
+						if(carbon_get_theme_option('crb_singkron_simda') == 1){
+							$debug = true;
+						}
 						$this->simda->singkronSimdaKas(array(
-							'return' => false
+							'return' => $debug
 						));
 					}
 				} else if ($ret['status'] != 'error') {
