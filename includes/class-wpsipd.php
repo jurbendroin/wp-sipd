@@ -197,6 +197,9 @@ class Wpsipd
 		$this->loader->add_action('wp_ajax_singkron_data_giat',  $plugin_public, 'singkron_data_giat');
 		$this->loader->add_action('wp_ajax_nopriv_singkron_data_giat',  $plugin_public, 'singkron_data_giat');
 
+		$this->loader->add_action('wp_ajax_singkron_data_rekap',  $plugin_public, 'singkron_data_rekap');
+		$this->loader->add_action('wp_ajax_nopriv_singkron_data_rekap',  $plugin_public, 'singkron_data_rekap');
+
 		$this->loader->add_action('wp_ajax_singkron_data_usulan',  $plugin_public, 'singkron_data_usulan');
 		$this->loader->add_action('wp_ajax_nopriv_singkron_data_usulan',  $plugin_public, 'singkron_data_usulan');
 
@@ -253,6 +256,8 @@ class Wpsipd
 		add_shortcode('tampilrka', array($plugin_public, 'tampilrka'));
 		add_shortcode('tampilrka_v1', array($plugin_public, 'tampilrka_v1'));
 		add_shortcode('tampilrekap', array($plugin_public, 'tampilrekap'));
+		add_shortcode('tampilrekapusulan', array($plugin_public, 'tampilrekapusulan'));
+		add_shortcode('tampilrekapusulankec', array($plugin_public, 'tampilrekapusulankec'));
 	}
 
 	/**

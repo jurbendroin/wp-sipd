@@ -674,6 +674,47 @@ class Wpsipd_Public
 		die(json_encode($ret));
 	}
 
+	public function singkron_data_rekap()
+	{
+		global $wpdb;
+		$ret = array(
+			'status'	=> 'success',
+			'message'	=> 'Berhasil singkron rekap!'
+		);
+		if (!empty($_POST)) {
+			if (!empty($_POST['api_key']) && $_POST['api_key'] == carbon_get_theme_option( 'crb_api_key_extension' )) {
+				if (!empty($_POST['data_rekap'])) {
+					$data_rekap = $_POST['data_rekap'];
+					foreach ($data_rekap as $k => $v) {
+						$opsi = $v + array(
+							'update_at' => current_time('mysql'),
+							'tahun_anggaran' => $_POST['tahun_anggaran'],
+							'active' => 1
+						);
+						$cek = $wpdb->get_var("SELECT id FROM data_rekap_18 WHERE id_urusan='".$v['id_urusan']."' AND id_bidang_urusan='".$v['id_bidang_urusan']."' AND id_program='".$v['id_program']."' AND id_giat='".$v['id_giat']."' AND id_sub_giat='".$v['id_sub_giat']."' AND kode_sub_skpd='".$v['kode_sub_skpd']."' AND kode_akun='".$v['kode_akun']."'");
+						if (!empty($cek)) {
+							$wpdb->update('data_rekap_18', $opsi, array(
+								'id' => $cek
+							));
+						} else {
+							$wpdb->insert('data_rekap_18', $opsi);
+						}
+					}
+				} else if ($ret['status'] != 'error') {
+					$ret['status'] = 'error';
+					$ret['message'] = 'Format data Salah!';
+				}
+			} else {
+				$ret['status'] = 'error';
+				$ret['message'] = 'APIKEY tidak sesuai!';
+			}
+		} else {
+			$ret['status'] = 'error';
+			$ret['message'] = 'Format Salah!';
+		}
+		die(json_encode($ret));
+	}
+
 	public function singkron_data_usulan()
 	{
 		global $wpdb;
@@ -1666,6 +1707,16 @@ class Wpsipd_Public
 	public function tampilrekap()
 	{
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-rincian-unit.php';
+	}
+
+	public function tampilrekapusulan()
+	{
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-usulan.php';
+	}
+
+	public function tampilrekapusulankec()
+	{
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-usulan-kec.php';
 	}
 
 	public function get_cat_url()
