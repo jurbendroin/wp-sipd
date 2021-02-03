@@ -127,9 +127,9 @@ class Wpsipd_Admin {
 	        ->add_fields( array(
 	            Field::make( 'text', 'crb_tahun_anggaran_sipd', 'Tahun Anggaran SIPD' )
 	            	->set_default_value('2021'),
-	            Field::make( 'text', 'crb_pemda', 'Nama Pemda' )
+	            Field::make( 'text', 'crb_daerah', 'Nama Pemda' )
 	            	->set_help_text('Data diambil dari halaman pengaturan SIPD menggunakan <a href="https://github.com/agusnurwanto/sipd-chrome-extension" target="_blank">SIPD chrome extension</a>.')
-	            	->set_default_value(carbon_get_theme_option( 'crb_pemda' ))
+	            	->set_default_value(carbon_get_theme_option( 'crb_daerah' ))
 	            	->set_attribute('readOnly', 'true'),
 	            Field::make( 'text', 'crb_kepala_daerah', 'Kepala Daerah' )
 	            	->set_default_value(carbon_get_theme_option( 'crb_kepala_daerah' ))
@@ -190,7 +190,14 @@ class Wpsipd_Admin {
 			        '2' => __( 'Tidak' )
 			    ) )
             	->set_default_value('2')
-            	->set_help_text('Jika sub unit simda (ref_unit dan ref_sub_unit) belum dibuat maka data akan diisi otomatis ketika melakukan integrasi perangkat daerah. Dan tanpa merubah yang sudah diisi.')
+            	->set_help_text('Jika sub unit simda (ref_unit dan ref_sub_unit) belum dibuat maka data akan diisi otomatis ketika melakukan integrasi perangkat daerah. Dan tanpa merubah yang sudah diisi.'),
+	        Field::make( 'radio', 'crb_auto_ref_kegiatan_mapping', __( 'Otomatis insert ke ref_kegiatan dan ref_kegiatan_mapping jika tidak ada di SIMDA' ) )
+			    ->add_options( array(
+			        '1' => __( 'Ya' ),
+			        '2' => __( 'Tidak' )
+			    ) )
+            	->set_default_value('2')
+            	->set_help_text('Jika data di ref_program belum ada, juga akan diinput otomatis dengan kode default <b>kd_prog >= 150 dan kd_keg >= 150</b> sebagai tanda auto create by WP-SIPD.')
 	    );
 
 	    $cek_status_koneksi_simda = $this->CurlSimda(array(
@@ -205,7 +212,7 @@ class Wpsipd_Admin {
 	            	->set_html( 'Status koneksi SQL server SIMDA: '.$ket_simda );
 		
 		$mapping_unit[] = Field::make( 'html', 'crb_mapping_unit_simda' )
-	            	->set_html( 'Mapping kode sub unit SIPD ke SIMDA. Format kode (kd_urusan.kd_bidang.kd_unit.kd_sub) dipisah dengan titik. Contoh untuk Dinas Pendidikan (1.1.1.1)' );
+	            	->set_html( 'Mapping kode sub unit SIPD ke SIMDA. Format kode (kd_urusan.kd_bidang.kd_unit.kd_sub) dipisah dengan titik. Contoh untuk Dinas Pendidikan (1.1.1.1). <b>Setelah melakukan mapping kode unit secara manual maka HARUS DILAKUKAN SINGKRON ULANG PERANGKAT DAERAH agar data di ta_sub_unit terisi semua!</b>.' );
 		foreach ($unit as $k => $v) {
 			$unit_simda = get_option('_crb_unit_'.$v['id_skpd']);
 			if(empty($unit_simda)){
