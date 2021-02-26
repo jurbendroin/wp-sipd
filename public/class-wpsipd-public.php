@@ -579,9 +579,11 @@ class Wpsipd_Public
 	{
 		global $wpdb;
 		$ret = array(
+			'action'	=> $_POST['action'],
 			'status'	=> 'success',
 			'message'	=> 'Berhasil export Unit!',
-			'request_data'	=> array()
+			'request_data'	=> array(),
+			'renja_link'	=> array()
 		);
 		if (!empty($_POST)) {
 			if (!empty($_POST['api_key']) && $_POST['api_key'] == carbon_get_theme_option( 'crb_api_key_extension' )) {
@@ -609,6 +611,50 @@ class Wpsipd_Public
 							$opsi['insert'] = 1;
 						}
 						$ret['request_data'][] = $opsi;
+
+						$nama_page = $_POST['tahun_anggaran'] . ' | ' . $v['kode_skpd'] . ' | ' . $v['nama_skpd'];
+						$custom_post = get_page_by_title($nama_page, OBJECT, 'page');
+
+						$cat_name = $_POST['tahun_anggaran'] . ' RKPD';
+						$taxonomy = 'category';
+						$cat  = get_term_by('name', $cat_name, $taxonomy);
+						if ($cat == false) {
+							$cat = wp_insert_term($cat_name, $taxonomy);
+							$cat_id = $cat['term_id'];
+						} else {
+							$cat_id = $cat->term_id;
+						}
+
+						$_post = array(
+							'post_title'	=> $nama_page,
+							'post_content'	=> '[tampilrkpd id_skpd="'.$v['id_skpd'].'" tahun_anggaran="'.$_POST['tahun_anggaran'].'"]',
+							'post_type'		=> 'page',
+							'post_status'	=> 'private',
+							'comment_status'	=> 'closed'
+						);
+						if (empty($custom_post) || empty($custom_post->ID)) {
+							$id = wp_insert_post($_post);
+							$_post['insert'] = 1;
+							$_post['ID'] = $id;
+						}else{
+							$_post['ID'] = $custom_post->ID;
+							wp_update_post( $_post );
+							$_post['update'] = 1;
+						}
+						$custom_post = get_page_by_title($nama_page, OBJECT, 'page');
+						update_post_meta($custom_post->ID, 'ast-breadcrumbs-content', 'disabled');
+						update_post_meta($custom_post->ID, 'ast-featured-img', 'disabled');
+						update_post_meta($custom_post->ID, 'ast-main-header-display', 'disabled');
+						update_post_meta($custom_post->ID, 'footer-sml-layout', 'disabled');
+						update_post_meta($custom_post->ID, 'site-content-layout', 'page-builder');
+						update_post_meta($custom_post->ID, 'site-post-title', 'disabled');
+						update_post_meta($custom_post->ID, 'site-sidebar-layout', 'no-sidebar');
+						update_post_meta($custom_post->ID, 'theme-transparent-header-meta', 'disabled');
+
+						// https://stackoverflow.com/questions/3010124/wordpress-insert-category-tags-automatically-if-they-dont-exist
+						$append = true;
+						wp_set_post_terms($custom_post->ID, array($cat_id), $taxonomy, $append);
+						$ret['renja_link'][$v['id_skpd']] = esc_url( get_permalink($custom_post));
 					}
 					if(carbon_get_theme_option('crb_singkron_simda') == 1){
 						$debug = false;
@@ -1720,6 +1766,10 @@ class Wpsipd_Public
 	{
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-usulan-kec.php';
 	}
+	public function tampilrkpd($atts)
+	{
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rkpd.php';
+	}
 
 	public function get_cat_url()
 	{
@@ -2114,5 +2164,9 @@ class Wpsipd_Public
 			$ret['message'] = 'Format Salah!';
 		}
 		die(json_encode($ret));
+	}
+
+	function get_up(){
+		$this->simda->get_up_simda();
 	}
 }

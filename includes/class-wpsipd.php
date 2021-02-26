@@ -159,6 +159,7 @@ class Wpsipd
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 		$this->loader->add_action('carbon_fields_register_fields', $plugin_admin, 'crb_attach_sipd_options');
+		$this->loader->add_action('template_redirect', $plugin_admin, 'allow_access_private_post', 0);
 	}
 
 	/**
@@ -251,6 +252,9 @@ class Wpsipd
 		$this->loader->add_action('wp_ajax_singkron_pembiayaan',  $plugin_public, 'singkron_pembiayaan');
 		$this->loader->add_action('wp_ajax_nopriv_singkron_pembiayaan',  $plugin_public, 'singkron_pembiayaan');
 
+		$this->loader->add_action('wp_ajax_get_up',  $plugin_public, 'get_up');
+		$this->loader->add_action('wp_ajax_nopriv_get_up',  $plugin_public, 'get_up');
+
 		add_shortcode('datassh', array($plugin_public, 'datassh'));
 		add_shortcode('rekbelanja', array($plugin_public, 'rekbelanja'));
 		add_shortcode('tampilrka', array($plugin_public, 'tampilrka'));
@@ -258,6 +262,7 @@ class Wpsipd
 		add_shortcode('tampilrekap', array($plugin_public, 'tampilrekap'));
 		add_shortcode('tampilrekapusulan', array($plugin_public, 'tampilrekapusulan'));
 		add_shortcode('tampilrekapusulankec', array($plugin_public, 'tampilrekapusulankec'));
+		add_shortcode('tampilrkpd', array($plugin_public, 'tampilrkpd'));
 	}
 
 	/**

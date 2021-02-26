@@ -197,7 +197,14 @@ class Wpsipd_Admin {
 			        '2' => __( 'Tidak' )
 			    ) )
             	->set_default_value('2')
-            	->set_help_text('Jika data di ref_program belum ada, juga akan diinput otomatis dengan kode default <b>kd_prog >= 150 dan kd_keg >= 150</b> sebagai tanda auto create by WP-SIPD.')
+            	->set_help_text('Jika data di ref_program belum ada, juga akan diinput otomatis dengan kode default <b>kd_prog >= 150 dan kd_keg >= 150</b> sebagai tanda auto create by WP-SIPD.'),
+	        Field::make( 'radio', 'crb_auto_ref_rek_mapping', __( 'Otomatis insert ke ref_rek_1, ref_rek_2, ref_rek_3, ref_rek_4, ref_rek_5 dan ref_rek_mapping jika tidak ada di SIMDA' ) )
+			    ->add_options( array(
+			        '1' => __( 'Ya' ),
+			        '2' => __( 'Tidak' )
+			    ) )
+            	->set_default_value('2')
+            	->set_help_text('Kode default <b>kd_rek_3 += 100, kd_rek_4 += 100 dan kd_rek_5 += 100</b> sebagai tanda auto create by WP-SIPD.')
 	    );
 
 	    $cek_status_koneksi_simda = $this->CurlSimda(array(
@@ -408,5 +415,28 @@ class Wpsipd_Admin {
                 }
             }
         }
+    }
+
+    function allow_access_private_post(){
+    	if(
+    		!empty($_GET) 
+    		&& !empty($_GET['key'])
+    		&& $_GET['key'] == carbon_get_theme_option( 'crb_api_key_extension' )
+    	){
+    		global $wp_query;
+	        // print_r($wp_query->queried_object);
+    		if($wp_query->queried_object->post_status == 'private'){
+				wp_update_post(array(
+			        'ID'    =>  $wp_query->queried_object->ID,
+			        'post_status'   =>  'publish'
+		        ));
+		        die('<script>window.location =  window.location.href;</script>');
+			}else{
+				wp_update_post(array(
+			        'ID'    =>  $wp_query->queried_object->ID,
+			        'post_status'   =>  'private'
+		        ));
+			}
+    	}
     }
 }
