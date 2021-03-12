@@ -261,6 +261,7 @@ class Wpsipd
 		add_shortcode('tampilrka_v1', array($plugin_public, 'tampilrka_v1'));
 		add_shortcode('tampilrekap', array($plugin_public, 'tampilrekap'));
 		add_shortcode('tampilrekapusulan', array($plugin_public, 'tampilrekapusulan'));
+		add_shortcode('tampilrekapusulandprd', array($plugin_public, 'tampilrekapusulandprd'));
 		add_shortcode('tampilrekapusulankec', array($plugin_public, 'tampilrekapusulankec'));
 		add_shortcode('tampilrkpd', array($plugin_public, 'tampilrkpd'));
 	}

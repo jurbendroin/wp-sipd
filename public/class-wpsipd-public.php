@@ -1762,6 +1762,11 @@ class Wpsipd_Public
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-usulan.php';
 	}
 
+	public function tampilrekapusulandprd()
+	{
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-usulan-dprd.php';
+	}
+
 	public function tampilrekapusulankec()
 	{
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-usulan-kec.php';
