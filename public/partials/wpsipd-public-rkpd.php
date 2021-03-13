@@ -52,7 +52,7 @@ if(empty($units)){
 }
 ?>
 <div id="cetak" title="Laporan RKPD <?php echo $input['tahun_anggaran']; ?>">
-	<h4 style="text-align: center; font-size: 11px; margin: 0; font-weight: bold;">Program dan Kegiatan Perangkat Daerah<br/>Kabupaten Magetan <br/>Tahun <?php echo $input['tahun_anggaran']; ?></h4>
+	<h4 style="text-align: center; font-size: 11px; margin: 0; font-weight: bold;">Program dan Kegiatan Perangkat Daerah<br/><?php echo carbon_get_theme_option( 'crb_level_daerah' ) .' ' . carbon_get_theme_option( 'crb_daerah' ) . '<br/>Tahun ' . $input['tahun_anggaran']; ?></h4>
 <?php 
 	foreach ($units as $k => $unit): 
 		if($unit['is_skpd']==1){
@@ -363,9 +363,9 @@ if(empty($units)){
 	    <thead>
 	    	<tr>
 	            <th style="padding: 0; border: 0; width:1%"></th>
-	            <th style="padding: 0; border: 0; width:1.2%"></th>
 	            <th style="padding: 0; border: 0; width:1.5%"></th>
 	            <th style="padding: 0; border: 0; width:1.5%"></th>
+	            <th style="padding: 0; border: 0; width:2.1%"></th>
 	            <th style="padding: 0; border: 0; width:1.5%"></th>
 	            <th style="padding: 0; border: 0; width:7%"></th>
 	            <th style="padding: 0; border: 0; width:7.5%"></th>

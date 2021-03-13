@@ -622,7 +622,7 @@ foreach ($bl as $k => $sub_bl) {
 	                    <td class="kiri atas kanan bawah text_blok" rowspan="2">Formulir<br/>RKA - RINCIAN BELANJA SKPD</td>
 	                </tr>
 	                <tr>
-	                    <td class="kiri atas kanan bawah">Pemerintah <?php echo DAERAH ." ". NAMADAERAH; ?> Tahun Anggaran <?php echo $tahun_anggaran; ?></td>
+	                    <td class="kiri atas kanan bawah">Pemerintah <?php echo carbon_get_theme_option( 'crb_level_daerah' ) ." ". carbon_get_theme_option( 'crb_daerah' ); ?> Tahun Anggaran <?php echo $tahun_anggaran; ?></td>
 	                </tr>
 	            </table>
 	        </td>
@@ -803,19 +803,19 @@ foreach ($bl as $k => $sub_bl) {
 	        </td>
 	        <td class="kiri kanan atas bawah" width="250" valign="top">
 	            <table width="100%" class="cellpadding_2" style="border-spacing: 0px;">
-	                <tr><td colspan="3" class="text_tengah"><?php echo NAMADAERAH .", ". TANGGAL; ?></td></tr>
+	                <tr><td colspan="3" class="text_tengah"><?php echo carbon_get_theme_option( 'crb_daerah' ) .", ". carbon_get_theme_option( 'crb_tanggal' ); ?></td></tr>
 					<tr><td colspan="3" class="text_tengah text_15"><?php 
 					  if (strpos($unit[0]['namaunit'], "Kecamatan") !== false) {
 						echo str_replace("Kecamatan","Camat",$unit[0]['namaunit']);
 					  } else {
 					    if (strpos($unit[0]['namaunit'], "Inspektorat") !== false) {
-						  echo "Inspektur " . DAERAH ." ". NAMADAERAH;
+						  echo "Inspektur " . carbon_get_theme_option( 'crb_level_daerah' ) ." ". carbon_get_theme_option( 'crb_daerah' );
 						} else {
 					      if (strpos($unit[0]['namaunit'], "Rumah Sakit") !== false) {
 							echo "Direktur " . $unit[0]['namaunit']; 
 						  } else {
 							if (strpos($unit[0]['namaunit'], "Sekretariat") !== false) {
-							  echo str_replace("Sekretariat","Sekretaris", $unit[0]['namaunit']) ." ". DAERAH ." ". NAMADAERAH ;
+							  echo str_replace("Sekretariat","Sekretaris", $unit[0]['namaunit']) ." ". carbon_get_theme_option( 'crb_level_daerah' ) ." ". carbon_get_theme_option( 'crb_daerah' ) ;
 							} else { echo "Kepala " . $unit[0]['namaunit']; }
 						  }
 						}

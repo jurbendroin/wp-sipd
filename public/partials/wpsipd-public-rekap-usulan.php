@@ -71,6 +71,7 @@ if (isset($_POST['kec']) && isset($_POST['status'])){
 			case '9':
 				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Ditolak di Forum SKPD";
 				$qstatus = " AND status_usul_teks = 'Diteruskan ke Forum SKPD||Ditolak'";
+				break;
 			case '10':
 				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Diteruskan ke Musrenbang Provinsi/Kabupaten/Kota";
 				$qstatus = " AND status_usul_teks = 'Diteruskan ke Musrenbang Provinsi/Kabupaten/Kota'";

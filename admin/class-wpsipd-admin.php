@@ -127,19 +127,23 @@ class Wpsipd_Admin {
 	        ->add_fields( array(
 	            Field::make( 'text', 'crb_tahun_anggaran_sipd', 'Tahun Anggaran SIPD' )
 	            	->set_default_value('2021'),
+                Field::make( 'text', 'crb_level_daerah', 'Level Daerah SIPD' )
+                    ->set_default_value('Kabupaten'),
 	            Field::make( 'text', 'crb_daerah', 'Nama Pemda' )
 	            	->set_help_text('Data diambil dari halaman pengaturan SIPD menggunakan <a href="https://github.com/agusnurwanto/sipd-chrome-extension" target="_blank">SIPD chrome extension</a>.')
-	            	->set_default_value(carbon_get_theme_option( 'crb_daerah' ))
-	            	->set_attribute('readOnly', 'true'),
+	            	->set_default_value(carbon_get_theme_option( 'crb_daerah' )),
+//	            	->set_attribute('readOnly', 'false'),
 	            Field::make( 'text', 'crb_kepala_daerah', 'Kepala Daerah' )
-	            	->set_default_value(carbon_get_theme_option( 'crb_kepala_daerah' ))
-	            	->set_attribute('readOnly', 'true'),
+	            	->set_default_value(carbon_get_theme_option( 'crb_kepala_daerah' )),
+//	            	->set_attribute('readOnly', 'false'),
 	            Field::make( 'text', 'crb_wakil_daerah', 'Wakil Kepala Daerah' )
-	            	->set_default_value(carbon_get_theme_option( 'crb_wakil_daerah' ))
-	            	->set_attribute('readOnly', 'true'),
+	            	->set_default_value(carbon_get_theme_option( 'crb_wakil_daerah' )),
+//	            	->set_attribute('readOnly', 'false'),
 	            Field::make( 'text', 'crb_api_key_extension', 'API KEY chrome extension' )
 	            	->set_default_value($this->generateRandomString())
 	            	->set_help_text('API KEY ini dipakai untuk <a href="https://github.com/agusnurwanto/sipd-chrome-extension" target="_blank">SIPD chrome extension</a>.'),
+				Field::make( 'text', 'crb_tanggal', 'Tanggal / Titi Mangsa Dokumen' )
+                    ->set_default_value('24 November 2020'),
 	            Field::make( 'html', 'crb_siencang' )
 	            	->set_html( '<a target="_blank" href="'.$siencang_link.'">SIPD to SIENCANG</a> | <a href="https://github.com/ganjarnugraha/perencanaan-penganggaran" target="_blank">https://github.com/ganjarnugraha/perencanaan-penganggaran</a>' ),
 	            Field::make( 'html', 'crb_simda' )
@@ -217,7 +221,7 @@ class Wpsipd_Admin {
 		}
 		$mapping_unit[] = Field::make( 'html', 'crb_status_simda' )
 	            	->set_html( 'Status koneksi SQL server SIMDA: '.$ket_simda );
-		
+
 		$mapping_unit[] = Field::make( 'html', 'crb_mapping_unit_simda' )
 	            	->set_html( 'Mapping kode sub unit SIPD ke SIMDA. Format kode (kd_urusan.kd_bidang.kd_unit.kd_sub) dipisah dengan titik. Contoh untuk Dinas Pendidikan (1.1.1.1). <b>Setelah melakukan mapping kode unit secara manual maka HARUS DILAKUKAN SINGKRON ULANG PERANGKAT DAERAH agar data di ta_sub_unit terisi semua!</b>.' );
 		foreach ($unit as $k => $v) {
@@ -419,7 +423,7 @@ class Wpsipd_Admin {
 
     function allow_access_private_post(){
     	if(
-    		!empty($_GET) 
+    		!empty($_GET)
     		&& !empty($_GET['key'])
     		&& $_GET['key'] == carbon_get_theme_option( 'crb_api_key_extension' )
     	){
