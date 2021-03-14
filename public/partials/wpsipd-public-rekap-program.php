@@ -1,5 +1,20 @@
+<div class="no-print">
+<form method="post" name="pilihan-ta" action="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>">
+    <select name="ta">
+	<?php 
+		echo '<option value="">Pilih Tahun Anggaran</option>';
+		echo '<option>2021</option>';
+		echo '<option>2022</option>';
+	?>
+    </select>
+    <input type="submit" value="GO"/>
+</form>
+</div>
+
 <?php
 global $wpdb;
+$ta = carbon_get_theme_option('crb_tahun_anggaran_sipd');
+if (isset($_POST['ta'])) if ($_POST['ta'] != '') $ta = $_POST['ta'];
 
 $rekap = $wpdb->get_results("
     SELECT a.idinduk, b.kode_skpd, b.nama_skpd, c.nama_urusan, c.nama_bidang_urusan, c.kode_program, c.nama_program 
@@ -8,14 +23,14 @@ $rekap = $wpdb->get_results("
     ON a.idinduk = b.id_skpd
     JOIN data_sub_keg_bl c
     ON a.id_skpd = c.id_sub_skpd
-    WHERE a.tahun_anggaran = 2021 AND b.tahun_anggaran = 2021 AND c.tahun_anggaran = 2021
+    WHERE a.tahun_anggaran = ".$ta." AND b.tahun_anggaran = ".$ta." AND c.tahun_anggaran = ".$ta."
     GROUP BY a.idinduk, b.nama_skpd, c.nama_urusan, c.nama_bidang_urusan, c.nama_program 
 	ORDER BY `b`.`kode_skpd`, c.kode_program ASC"
 , ARRAY_A);
 
 $tbody = "
 	<tr>
-		<th class=\"atas kanan bawah kiri text_tengah\" colspan=\"5\">REKAPITULASI PROGRAM SKPD</td>
+		<th class=\"atas kanan bawah kiri text_tengah\" colspan=\"5\">REKAPITULASI PROGRAM SKPD<br/>TAHUN ".$ta."</td>
 	</tr>
 	<tr>
 		<td colspan=\"5\">

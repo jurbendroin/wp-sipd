@@ -1,12 +1,27 @@
+<div class="no-print">
+<form method="post" name="pilihan-ta" action="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>">
+    <select name="ta">
+	<?php 
+		echo '<option value="">Pilih Tahun Anggaran</option>';
+		echo '<option>2021</option>';
+		echo '<option>2022</option>';
+	?>
+    </select>
+    <input type="submit" value="GO"/>
+</form>
+</div>
+
 <?php
 global $wpdb;
+$ta = carbon_get_theme_option('crb_tahun_anggaran_sipd');
+if (isset($_POST['ta'])) if ($_POST['ta'] != '') $ta = $_POST['ta'];
 
 $rekap = $wpdb->get_results("
-	SELECT d.kode_skpd, d.nama_skpd, e.batasanpagu, e.nilaipagu, e.nilairincian, SUM(a.rincian) AS total FROM (SELECT * FROM data_rka WHERE tahun_anggaran = 2021) a 
-	LEFT JOIN (SELECT * FROM data_sub_keg_bl WHERE tahun_anggaran = 2021) b ON a.kode_sbl = b.kode_sbl 
-	LEFT JOIN (SELECT * FROM data_unit WHERE tahun_anggaran = 2021) c ON b.id_sub_skpd = c.id_skpd 
-	LEFT JOIN (SELECT * FROM data_unit WHERE tahun_anggaran = 2021) d ON c.id_unit = d.id_skpd
-	LEFT JOIN (SELECT * FROM data_unit_pagu WHERE tahun_anggaran = 2021) e ON e.id_skpd = d.id_skpd
+	SELECT d.kode_skpd, d.nama_skpd, e.batasanpagu, e.nilaipagu, e.nilairincian, SUM(a.rincian) AS total FROM (SELECT * FROM data_rka WHERE tahun_anggaran = ".$ta.") a 
+	LEFT JOIN (SELECT * FROM data_sub_keg_bl WHERE tahun_anggaran = ".$ta.") b ON a.kode_sbl = b.kode_sbl 
+	LEFT JOIN (SELECT * FROM data_unit WHERE tahun_anggaran = ".$ta.") c ON b.id_sub_skpd = c.id_skpd 
+	LEFT JOIN (SELECT * FROM data_unit WHERE tahun_anggaran = ".$ta.") d ON c.id_unit = d.id_skpd
+	LEFT JOIN (SELECT * FROM data_unit_pagu WHERE tahun_anggaran = ".$ta.") e ON e.id_skpd = d.id_skpd
 	WHERE a.active = 1 GROUP BY d.id_skpd
 	ORDER BY `d`.`kode_skpd` ASC"
 , ARRAY_A);

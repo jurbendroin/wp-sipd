@@ -629,7 +629,7 @@ class Wpsipd_Public
 							'post_title'	=> $nama_page,
 							'post_content'	=> '[tampilrkpd id_skpd="'.$v['id_skpd'].'" tahun_anggaran="'.$_POST['tahun_anggaran'].'"]',
 							'post_type'		=> 'page',
-							'post_status'	=> 'private',
+							'post_status'	=> 'publish',
 							'comment_status'	=> 'closed'
 						);
 						if (empty($custom_post) || empty($custom_post->ID)) {
@@ -1292,7 +1292,7 @@ class Wpsipd_Public
 							'post_title'	=> $nama_page,
 							'post_content'	=> '[tampilrka kode_bl="'.$_POST['kode_bl'].'" tahun_anggaran="'.$_POST['tahun_anggaran'].'"]',
 							'post_type'		=> 'post',
-							'post_status'	=> 'private',
+							'post_status'	=> 'publish',
 							'comment_status'	=> 'closed'
 						);
 						if (empty($custom_post) || empty($custom_post->ID)) {
@@ -1320,7 +1320,7 @@ class Wpsipd_Public
 								'post_title'	=> $nama_page_1,
 								'post_content'	=> '[tampilrka_v1 kode_bl=' . $_POST['kode_bl'] . ']',
 								'post_type'		=> 'post',
-								'post_status'	=> 'private',
+								'post_status'	=> 'publish',
 								'comment_status'	=> 'closed'
 							));
 							$custom_post_1 = get_page_by_title($nama_page_1, OBJECT, 'post');
@@ -1771,6 +1771,17 @@ class Wpsipd_Public
 	{
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-usulan-kec.php';
 	}
+
+	public function tampilrekapprog()
+	{
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-program.php';
+	}
+
+	public function tampilrekappelaksprog()
+	{
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rekap-pelaksana-program.php';
+	}
+
 	public function tampilrkpd($atts)
 	{
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/wpsipd-public-rkpd.php';
@@ -2289,7 +2300,7 @@ class Wpsipd_Public
 			'post_title'	=> $nama_page,
 			'post_content'	=> $post_content,
 			'post_type'		=> 'page',
-			'post_status'	=> 'private',
+			'post_status'	=> 'publish',
 			'comment_status'	=> 'closed'
 		);
 		if (empty($custom_post) || empty($custom_post->ID)) {

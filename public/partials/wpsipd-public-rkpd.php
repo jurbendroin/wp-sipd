@@ -1,8 +1,10 @@
 <?php
 global $wpdb;
+$ta = carbon_get_theme_option('crb_tahun_anggaran_sipd');
+if (isset($_POST['ta'])) if ($_POST['ta'] != '') $ta = $_POST['ta'];
 $input = shortcode_atts( array(
 	'id_skpd' => '',
-	'tahun_anggaran' => '2022'
+	'tahun_anggaran' => $ta
 ), $atts );
 
 $type = '';
@@ -30,7 +32,7 @@ if(!empty($input['id_skpd'])){
 		from data_unit 
 		where tahun_anggaran=%d
 			and active=1
-		order by id_skpd ASC
+		order by kode_skpd ASC
 	", $input['tahun_anggaran']);
 }
 $units = $wpdb->get_results($sql, ARRAY_A);
@@ -51,6 +53,21 @@ if(empty($units)){
 	$urut = $input['tahun_anggaran']-$start_rpjmd;
 }
 ?>
+<?php if (empty($input['id_skpd'])) { ?>
+	<div class="no-print">
+<form method="post" name="pilihan-ta" action="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>">
+    <select name="ta">
+	<?php 
+		echo '<option value="">Pilih Tahun Anggaran</option>';
+		echo '<option>2021</option>';
+		echo '<option>2022</option>';
+	?>
+    </select>
+    <input type="submit" value="GO"/>
+</form>
+</div>
+
+<?php } ?>
 <div id="cetak" title="Laporan RKPD <?php echo $input['tahun_anggaran']; ?>">
 	<h4 style="text-align: center; font-size: 11px; margin: 0; font-weight: bold;">Program dan Kegiatan Perangkat Daerah<br/><?php echo carbon_get_theme_option( 'crb_level_daerah' ) .' ' . carbon_get_theme_option( 'crb_daerah' ) . '<br/>Tahun ' . $input['tahun_anggaran']; ?></h4>
 <?php 
