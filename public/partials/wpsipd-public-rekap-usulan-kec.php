@@ -1,5 +1,6 @@
 <?php
 global $wpdb;
+$update_at = $wpdb->get_var("SELECT MAX(update_at) FROM `data_usulan` WHERE id_usulan IS NOT null AND tahun_anggaran = 2022 AND active = 1");
 
 $rekap = $wpdb->get_results("
 	select 
@@ -10,7 +11,7 @@ $rekap = $wpdb->get_results("
 		e.`jml` AS `jmlforum`, 
 		f.`jml` AS `jmlditolakmitra`, 
 		g.`jml` AS `jmlditolakkec`, 
-		h.`jml` AS `jmltapd`, 
+		h.`jml` AS `jmltapd`, h.`totalpagu` AS `totalpagu`,
 		i.`jml` AS `jmlditolakforum`  
 	from `data_desa_kelurahan` a 
 	LEFT JOIN
@@ -56,7 +57,7 @@ $rekap = $wpdb->get_results("
 	group by `camatteks`) g 
 	ON a.camat_teks = g.camatteks
 	LEFT JOIN
-	(select `camatteks` AS `camatteks`,
+	(select `camatteks` AS `camatteks`, sum(`rekom_pagu_skpd`) AS `totalpagu`,
 	count(`id`) AS `jml` 
 	from `data_usulan` 
 	where ((`tahun_anggaran` = 2022) and (`active` = 1) and (`id_usulan` IS NOT NULL) and (status_usul_teks='Diteruskan ke Musrenbang Provinsi/Kabupaten/Kota')) 
@@ -75,7 +76,7 @@ $rekap = $wpdb->get_results("
 
 $tbody = "
 	<tr>
-		<th class=\"atas kanan bawah kiri text_tengah\">REKAPITULASI USULAN</td>
+		<th class=\"atas kanan bawah kiri text_tengah\">REKAPITULASI USULAN<br/>PER ".$update_at."</td>
 	</tr>
 	<tr>
 		<td>
@@ -85,6 +86,7 @@ $tbody = "
 						<th class=\"text_tengah kiri atas kanan bawah\" rowspan=\"3\">NO</td>
 						<th class=\"text_tengah kiri atas kanan bawah\" rowspan=\"3\">KECAMATAN</td>
 						<th class=\"text_tengah kiri atas kanan bawah\" colspan=\"10\">JUMLAH USULAN</td>
+						<th class=\"text_tengah kiri atas kanan bawah\" rowspan=\"3\">TOTAL PAGU DITERUSKAN KE MUSRENBANG KABUPATEN</td>
 						<tr>
 							<th class=\"text_tengah kiri atas kanan bawah\" rowspan=\"2\">USULAN MASUK</td>
 							<th class=\"text_tengah kiri atas kanan bawah\" colspan=\"3\">PROSES DI MITRA BAPPEDA</td>
@@ -115,6 +117,7 @@ $total7=0;
 $total8=0;
 $total9=0;
 $total10=0;
+$total11=0;
 foreach ($rekap as $baris => $baris_rekap) {
 	$i++;
 	$total1 += $baris_rekap['jml'];
@@ -129,6 +132,7 @@ foreach ($rekap as $baris => $baris_rekap) {
 	$total8 += $baris_rekap['jmlforum'];
 	$total9 += $baris_rekap['jmlditolakforum'];
 	$total10 += $baris_rekap['jmltapd'];
+	$total11 += $baris_rekap['totalpagu'];
 	$tbody .= "
 				<tr>
 					<td class=\"text_tengah kiri atas kanan bawah\">".$i."</td>
@@ -143,6 +147,7 @@ foreach ($rekap as $baris => $baris_rekap) {
 					<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmlforum']."</td>
 					<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmlditolakforum']."</td>
 					<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmltapd']."</td>
+					<td class=\"text_kanan kiri atas kanan bawah\">".number_format($baris_rekap['totalpagu'],2,",",".")."</td>
 				</tr>";
 }
 	$tbody .= "
@@ -159,6 +164,7 @@ foreach ($rekap as $baris => $baris_rekap) {
 					<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total8."</b></td>
 					<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total9."</b></td>
 					<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total10."</b></td>
+					<td class=\"text_kanan kiri atas kanan bawah\"><b>".number_format($total11,2,",",".")."</b></td>
 				</tr>
 			</table>
 		</td>

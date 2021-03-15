@@ -1,6 +1,7 @@
 <?php 
 global $wpdb; 
 $kec = $wpdb->get_results("SELECT camat_teks, count(id) FROM data_desa_kelurahan WHERE tahun_anggaran=2022 GROUP BY camat_teks ORDER BY camat_teks", ARRAY_A);
+$update_at = $wpdb->get_var("SELECT MAX(update_at) FROM `data_usulan` WHERE id_usulan IS NOT null AND tahun_anggaran = 2022 AND active = 1");
 ?>
 <div class="no-print">
 <form method="post" name="pilihan-kec" action="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>">
@@ -37,43 +38,58 @@ if (isset($_POST['kec']) && isset($_POST['status'])){
 		$status = $_POST['status'];
 		switch ($status) {
 			case '1':
-				$title = "Rekapitulasi Seluruh Usulan Desa/Kelurahan di Kecamatan ".$kecamatan;
+				$title = "Rekapitulasi Seluruh Usulan Desa/Kelurahan di Kecamatan ".$kecamatan."<br/>Per ".$update_at;
 				$qstatus = '';
 				break;
 			case '2':
-				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Tidak/Belum Divalidasi Mitra Bappeda";
+				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Tidak/Belum Divalidasi Mitra Bappeda"."<br/>Per ".$update_at;
 				$qstatus = " AND status_usul_teks = 'Validasi Mitra Bappeda'";
 				break;
 			case '3':
-				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Ditolak Mitra Bappeda";
+				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Ditolak Mitra Bappeda"."<br/>Per ".$update_at;
 				$qstatus = " AND status_usul_teks = 'Validasi Mitra Bappeda||Ditolak'";
+				$qket = ', tolak_teks AS ket';
 				break;
 			case '4':
-				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Diteruskan ke Musrenbang Kecamatan";
+				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Diteruskan ke Musrenbang Kecamatan"."<br/>Per ".$update_at;
 				$qstatus = " AND status_usul_teks != '' AND status_usul_teks != 'Validasi Mitra Bappeda' AND status_usul_teks != 'Validasi Mitra Bappeda||Ditolak'";
+				$qket = ', rekom_teks_mitra AS ket';
+				$qvol = ', rekom_vol_mitra AS volume';
+				$qsatuan = ', satuan';
+				$qanggaran = ', rekom_pagu_mitra AS anggaran';
 				break;
 			case '5':
-				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Tidak/Belum Diverifikasi Kecamatan";
+				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Tidak/Belum Diverifikasi Kecamatan"."<br/>Per ".$update_at;
 				$qstatus = " AND status_usul_teks = 'Diteruskan ke Musrenbang Kecamatan'";
 				break;
 			case '6':
-				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Ditolak oleh Kecamatan";
+				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Ditolak oleh Kecamatan"."<br/>Per ".$update_at;
 				$qstatus = " AND status_usul_teks = 'Diteruskan ke Musrenbang Kecamatan||Ditolak'";
+				$qket = ', tolak_teks AS ket';
 				break;
 			case '7':
-				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Diteruskan ke Forum SKPD";
+				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Diteruskan ke Forum SKPD"."<br/>Per ".$update_at;
 				$qstatus = " AND status_usul_teks != '' AND status_usul_teks != 'Validasi Mitra Bappeda' AND status_usul_teks != 'Validasi Mitra Bappeda||Ditolak' AND status_usul_teks != 'Diteruskan ke Musrenbang Kecamatan' AND status_usul_teks != 'Diteruskan ke Musrenbang Kecamatan||Ditolak'";
+				$qket = ', rekom_teks_camat AS ket';
+				$qvol = ', rekom_vol_camat AS volume';
+				$qsatuan = ', satuan';
+				$qanggaran = ', rekom_pagu_camat AS anggaran';
 				break;
 			case '8':
-				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Tidak/Belum Verifikasi Forum SKPD";
+				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Tidak/Belum Verifikasi Forum SKPD"."<br/>Per ".$update_at;
 				$qstatus = " AND status_usul_teks = 'Diteruskan ke Forum SKPD'";
 				break;
 			case '9':
-				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Ditolak di Forum SKPD";
+				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Ditolak di Forum SKPD"."<br/>Per ".$update_at;
 				$qstatus = " AND status_usul_teks = 'Diteruskan ke Forum SKPD||Ditolak'";
+				$qket = ', tolak_teks AS ket';
 				break;
 			case '10':
-				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Diteruskan ke Musrenbang Provinsi/Kabupaten/Kota";
+				$title = "Rekapitulasi Usulan Desa/Kelurahan di Kecamatan ".$kecamatan." dengan Status Diteruskan ke Musrenbang Provinsi/Kabupaten/Kota"."<br/>Per ".$update_at;
+				$qket = ', rekom_teks_skpd AS ket';
+				$qvol = ', rekom_vol_skpd AS volume';
+				$qsatuan = ', satuan';
+				$qanggaran = ', rekom_pagu_skpd AS anggaran';
 				$qstatus = " AND status_usul_teks = 'Diteruskan ke Musrenbang Provinsi/Kabupaten/Kota'";
 				break;
 			default: 
@@ -96,22 +112,28 @@ if (isset($_POST['kec']) && isset($_POST['status'])){
 							<th class=\"atas kanan bawah kiri text_tengah\" style=\"width: 30%;\">URAIAN PERMASALAHAN DAN USULAN</th>
 							<th class=\"atas kanan bawah kiri text_tengah\" style=\"width: 30%;\">LOKASI / ALAMAT</th>
 							<th class=\"atas kanan bawah kiri text_tengah\" style=\"width: 15%;\">TANGGAL USUL</th>
+							<th class=\"atas kanan bawah kiri text_tengah\" style=\"width: 15%;\">REKOMENDASI VOLUME</th>
+							<th class=\"atas kanan bawah kiri text_tengah\" style=\"width: 15%;\">SATUAN</th>
+							<th class=\"atas kanan bawah kiri text_tengah\" style=\"width: 15%;\">PAGU</th>
+							<th class=\"atas kanan bawah kiri text_tengah\" style=\"width: 15%;\">KETERANGAN</th>
 						</tr>
 					</THEAD>";
 			$deskel = $wpdb->get_results("
 				select camat_teks, lurah_teks from data_desa_kelurahan where camat_teks = '".$kecamatan."' and tahun_anggaran = 2022
 			"
 			, ARRAY_A);
+			$totalpagu = 0;
 			foreach ($deskel as $bariskel => $baris_kel) {
 				$tbody .= "
 				<tr>
 					<td class=\"atas kanan bawah kiri\"></td>
-					<td class=\"atas kanan bawah kiri text_tengah\" colspan=\"4\"><b>".$baris_kel['lurah_teks']."</b></td>
+					<td class=\"atas kanan bawah kiri text_tengah\" colspan=\"8\"><b>".$baris_kel['lurah_teks']."</b></td>
 				</tr>";
 				$i=0;
-				$list_usulan = $wpdb->get_results("SELECT gagasan, masalah, alamat_teks, createddate FROM `data_usulan` WHERE camatteks = '".$kecamatan."' AND lurahteks = '".$baris_kel['lurah_teks']."' AND tahun_anggaran = 2022 AND active = 1 AND `id_usulan` IS NOT NULL ".$qstatus." ORDER BY `createddate` DESC", ARRAY_A);
+				$list_usulan = $wpdb->get_results("SELECT gagasan, masalah, alamat_teks, createddate ".$qvol.$qsatuan.$qanggaran.$qket." FROM `data_usulan` WHERE camatteks = '".$kecamatan."' AND lurahteks = '".$baris_kel['lurah_teks']."' AND tahun_anggaran = 2022 AND active = 1 AND `id_usulan` IS NOT NULL ".$qstatus." ORDER BY `createddate` DESC", ARRAY_A);
 				foreach ($list_usulan as $usulan => $detail_usulan) {
 					$i++;
+					$totalpagu += $detail_usulan['anggaran'];
 					$tbody .= "
 					<tr>
 						<td class=\"atas kanan bawah kiri text_tengah text_atas\">".$i."</td>
@@ -119,10 +141,20 @@ if (isset($_POST['kec']) && isset($_POST['status'])){
 						<td class=\"atas kanan bawah kiri text_kiri text_atas\">".$detail_usulan['masalah']."</td>
 						<td class=\"atas kanan bawah kiri text_kiri text_atas\">".$detail_usulan['alamat_teks']."</td>
 						<td class=\"atas kanan bawah kiri text_tengah text_atas\">".$detail_usulan['createddate']."</td>
+						<td class=\"atas kanan bawah kiri text_tengah text_atas\">".$detail_usulan['volume']."</td>
+						<td class=\"atas kanan bawah kiri text_tengah text_atas\">".$detail_usulan['satuan']."</td>
+						<td class=\"atas kanan bawah kiri text_kanan text_atas\">".number_format($detail_usulan['anggaran'],2,",",".")."</td>
+						<td class=\"atas kanan bawah kiri text_tengah text_atas\">".$detail_usulan['ket']."</td>
 					</tr>";
 				}
 			}
 			$tbody .= "
+					<tr>
+						<td class=\"atas bawah kiri text_tengah text_atas\"></td>
+						<td class=\"atas bawah text_tengah text_atas\" colspan=\"6\"><b>JUMLAH</b></td>
+						<td class=\"atas bawah text_kanan text_atas\"><b>".number_format($totalpagu,2,",",".")."</b></td>
+						<td class=\"atas kanan bawah text_tengah text_atas\"></td>
+					</tr>
 					</table>
 				</td>
 			</tr>
@@ -142,7 +174,7 @@ if ($tampilrekap) {
 		e.`jml` AS `jmlforum`, 
 		f.`jml` AS `jmlditolakmitra`, 
 		g.`jml` AS `jmlditolakkec`, 
-		h.`jml` AS `jmltapd`, 
+		h.`jml` AS `jmltapd`, h.`totalpagu` AS `totalpagu`,
 		i.`jml` AS `jmlditolakforum` 
 	from `data_desa_kelurahan` a 
 	LEFT JOIN
@@ -195,7 +227,7 @@ if ($tampilrekap) {
 	ON a.camat_teks = g.camatteks AND a.lurah_teks = g.lurahteks
 	LEFT JOIN
 	(select `camatteks` AS `camatteks`,
-		`lurahteks` AS `lurahteks`,
+		`lurahteks` AS `lurahteks`, sum(`rekom_pagu_skpd`) AS `totalpagu`,
 		count(`id`) AS `jml` 
 	from `data_usulan` 
 	where ((`tahun_anggaran` = 2022) and (`active` = 1) and (`id_usulan` IS NOT NULL) and (status_usul_teks='Diteruskan ke Musrenbang Provinsi/Kabupaten/Kota')) 
@@ -224,7 +256,7 @@ if ($tampilrekap) {
 $tbody = "
 	<tr><td>
 		<table width=\"100%\">
-			<th class=\"atas kanan bawah kiri text_tengah\">REKAPITULASI USULAN</th>
+			<th class=\"atas kanan bawah kiri text_tengah\">REKAPITULASI USULAN<br/>PER ".$update_at."</th>
 		</table>
 	</td></tr>
 	<tr>
@@ -237,6 +269,7 @@ $tbody = "
 		<th class=\"text_tengah kiri atas kanan bawah\" rowspan=\"3\">DESA/KELURAHAN</th>
 		<th class=\"text_tengah kiri atas kanan bawah\" rowspan=\"3\">NAMA KEPALA DESA/LURAH</th>
 		<th class=\"text_tengah kiri atas kanan bawah\" colspan=\"10\">JUMLAH USULAN</th>
+		<th class=\"text_tengah kiri atas kanan bawah\" rowspan=\"3\">TOTAL PAGU DITERUSKAN KE MUSRENBANG KABUPATEN</td>
 		<tr>
 							<th class=\"text_tengah kiri atas kanan bawah\" rowspan=\"2\">USULAN MASUK</th>
 							<th class=\"text_tengah kiri atas kanan bawah\" colspan=\"3\">PROSES DI MITRA BAPPEDA</th>
@@ -267,6 +300,7 @@ $total7=0;
 $total8=0;
 $total9=0;
 $total10=0;
+$total11=0;
 foreach ($rekap as $baris => $baris_rekap) {
 	$i++;
 	$total1 += $baris_rekap['jml'];
@@ -281,6 +315,7 @@ foreach ($rekap as $baris => $baris_rekap) {
 	$total8 += $baris_rekap['jmlforum'];
 	$total9 += $baris_rekap['jmlditolakforum'];
 	$total10 += $baris_rekap['jmltapd'];
+	$total11 += $baris_rekap['totalpagu'];
 	$tbody .= "
 	<tr>
 		<td class=\"text_tengah kiri atas kanan bawah\">".$i."</td>
@@ -292,11 +327,12 @@ foreach ($rekap as $baris => $baris_rekap) {
 		<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmlditolakmitra']."</td>
 		<td class=\"text_tengah kiri atas kanan bawah\">".$jmlvalid."</td>
 		<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmldikec']."</td>
-					<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmlditolakkec']."</td>
+		<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmlditolakkec']."</td>
 		<td class=\"text_tengah kiri atas kanan bawah\">".$jmlkeforum."</td>
 		<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmlforum']."</td>
 		<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmlditolakforum']."</td>
 		<td class=\"text_tengah kiri atas kanan bawah\">".$baris_rekap['jmltapd']."</td>
+		<td class=\"text_kanan kiri atas kanan bawah\">".number_format($baris_rekap['totalpagu'],2,",",".")."</td>
 		</tr>";
 }
 $tbody .= "
@@ -310,11 +346,12 @@ $tbody .= "
 		<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total3."</b></td>
 		<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total4."</b></td>
 		<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total5."</b></td>
-					<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total6."</b></td>
-					<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total7."</b></td>
-					<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total8."</b></td>
-					<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total9."</b></td>
-					<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total10."</b></td>
+		<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total6."</b></td>
+		<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total7."</b></td>
+		<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total8."</b></td>
+		<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total9."</b></td>
+		<td class=\"text_tengah kiri atas kanan bawah\"><b>".$total10."</b></td>
+		<td class=\"text_kanan kiri atas kanan bawah\"><b>".number_format($total11,2,",",".")."</b></td>
 		</tr>
 </table>
 </td>
