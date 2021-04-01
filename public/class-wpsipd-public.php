@@ -319,9 +319,11 @@ class Wpsipd_Public
 					$data = $_POST['data'];
 					$cek = $wpdb->get_var("SELECT iduser from data_dewan where tahun_anggaran=".$_POST['tahun_anggaran']." AND iduser=" . $data['iduser']);
 					$opsi = $data + array(
+						'nama' => stripslashes($data['nama']),
 						'update_at' => current_time('mysql'),
 						'tahun_anggaran' => $_POST['tahun_anggaran']
 					);
+					$opsi = stripslashes_deep($opsi);
 					if (!empty($cek)) {
 						$wpdb->update('data_dewan', $opsi, array(
 							'iduser' => $data['iduser'],
@@ -330,6 +332,7 @@ class Wpsipd_Public
 					} else {
 						$wpdb->insert('data_dewan', $opsi);
 					}
+					$ret['message'] .= ' '.$opsi['nama'];
 					// print_r($ssh); die();
 				} else {
 					$ret['status'] = 'error';
@@ -344,6 +347,14 @@ class Wpsipd_Public
 			$ret['message'] = 'Format Salah!';
 		}
 		die(json_encode($ret));
+	}
+
+	function stripslashes_deep($value) {
+    	$value = is_array($value) ?
+                array_map('stripslashes_deep', $value) :
+                stripslashes($value);
+
+    	return $value;
 	}
 
 	public function singkron_pengaturan_sipd()
